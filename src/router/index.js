@@ -87,16 +87,16 @@ export const constantRouterMap = [
       {
         path: 'register',
         name: 'Register',
-        component: () => import('@/views/user/index'),
+        component: () => import('@/views/center/register/index'),
         meta: {
           title: 'Register',
           icon: 'form'
         }
       },
       {
-        path: 'config',
+        path: 'center',
         name: 'Config',
-        component: () => import('@/views/user/index'),
+        component: () => import('@/views/center/config/index'),
         meta: {
           title: 'Config', icon: 'form'
         }
@@ -140,7 +140,7 @@ export const constantRouterMap = [
         name: 'Development',
         component: () => import('@/views/form/index'),
         meta: {
-          title: 'Document',
+          title: 'Development',
           icon: 'form'
         }
       }]
