@@ -82,11 +82,21 @@ export const asyncRouterMap = [
         }
       },
       {
+        path: 'role',
+        name: 'role',
+        component: () => import('@/views/organization/role/index'),
+        meta: {
+          title: 'role',
+          icon: 'role'
+        }
+      },
+      {
         path: 'group',
         name: 'group',
         component: () => import('@/views/organization/group/index'),
         meta: {
-          title: 'group', icon: 'form'
+          title: 'group',
+          icon: 'form'
         }
       }]
   },

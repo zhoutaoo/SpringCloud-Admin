@@ -102,12 +102,31 @@ export default {
     backToTopTips2: '可自定义按钮的样式、show/hide、出现的高度、返回的位置 如需文字提示，可在外部使用Element的el-tooltip元素',
     imageUploadTips: '由于我在使用时它只有vue@1版本，而且和mockjs不兼容，所以自己改造了一下，如果大家要使用的话，优先还是使用官方版本。'
   },
+  search: {
+    add: '添加',
+    export: '导出'
+  },
   user: {
     username: '用户名',
-    mobile: '手机',
-    status: '状态'
+    name: '姓名',
+    mobile: '手机'
+  },
+  role: {
+    code: '代码',
+    name: '角色名',
+    description: '描述',
+    status: {
+      ok: '正常',
+      deleted: '已删除'
+    }
   },
   table: {
+    updatedTime: '更新时间',
+    updatedBy: '更新人',
+    createdTime: '创建时间',
+    createdBy: '创建人',
+    status: '状态',
+
     dynamicTips1: '固定表头, 按照表头顺序排序',
     dynamicTips2: '不固定表头, 按照点击顺序排序',
     dragTips1: '默认顺序',
@@ -124,7 +143,6 @@ export default {
     date: '时间',
     author: '作者',
     readings: '阅读数',
-    status: '状态',
     actions: '操作',
     edit: '编辑',
     publish: '发布',

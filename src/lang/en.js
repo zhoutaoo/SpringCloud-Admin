@@ -102,12 +102,31 @@ export default {
     backToTopTips2: 'You can customize the style of the button, show / hide, height of appearance, height of the return. If you need a text prompt, you can use element-ui el-tooltip elements externally',
     imageUploadTips: 'Since I was using only the vue@1 version, and it is not compatible with mockjs at the moment, I modified it myself, and if you are going to use it, it is better to use official version.'
   },
+  search: {
+    add: 'Add',
+    export: 'Export'
+  },
   user: {
     username: 'Username',
-    mobile: 'Mobile',
-    status: 'Status'
+    name: 'Name',
+    mobile: 'Mobile'
+  },
+  role: {
+    code: 'Code',
+    name: 'Role Name',
+    description: 'Description',
+    status: {
+      ok: 'Ok',
+      deleted: 'deleted'
+    }
   },
   table: {
+    updatedTime: 'Updated Time',
+    updatedBy: 'Updated By',
+    createdTime: 'Created Time',
+    createdBy: 'Created By',
+    status: 'Status',
+
     dynamicTips1: 'Fixed header, sorted by header order',
     dynamicTips2: 'Not fixed header, sorted by click order',
     dragTips1: 'The default order',
@@ -124,7 +143,6 @@ export default {
     date: 'Date',
     author: 'Author',
     readings: 'Readings',
-    status: 'Status',
     actions: 'Actions',
     edit: 'Edit',
     publish: 'Publish',

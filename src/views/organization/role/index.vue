@@ -3,16 +3,16 @@
 
     <div class="filter-container">
       <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item"
-                :placeholder="$t('user.username')" v-model="listQuery.username">
+                :placeholder="$t('role.code')" v-model="listQuery.code">
       </el-input>
 
       <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item"
-                :placeholder="$t('user.mobile')" v-model="listQuery.mobile">
+                :placeholder="$t('role.name')" v-model="listQuery.name">
       </el-input>
 
       <el-select clearable style="width: 90px" class="filter-item" v-model="listQuery.status"
                  :placeholder="$t('table.status')">
-        <el-option v-for="item in userStatus" :key="item" :label="item" :value="item">
+        <el-option v-for="item in roleStatus" :key="item" :label="$t('role.status.'+item)" :value="item">
         </el-option>
       </el-select>
 
@@ -32,34 +32,33 @@
     </div>
 
     <el-table :data="list" v-loading.body="listLoading" border fit highlight-current-row style="width: 100%">
-      <el-table-column align="center" label="ID" width="80">
+      <el-table-column align="center" label="ID" width="60">
         <template slot-scope="scope">
           <span>{{scope.row.id}}</span>
         </template>
       </el-table-column>
 
-      <el-table-column width="120px" align="center" :label="$t('user.username')">
+      <el-table-column width="80" align="center" :label="$t('role.code')">
         <template slot-scope="scope">
-          <span>{{scope.row.username}}</span>
+          <span>{{scope.row.code}}</span>
         </template>
       </el-table-column>
 
-      <el-table-column width="120px" align="center" :label="$t('user.name')">
+      <el-table-column width="100" align="center" :label="$t('role.name')">
         <template slot-scope="scope">
           <span>{{scope.row.name}}</span>
         </template>
       </el-table-column>
 
-      <el-table-column width="110px" align="center" :label="$t('user.mobile')">
+      <el-table-column align="center" :label="$t('role.description')">
         <template slot-scope="scope">
-          <span>{{scope.row.mobile}}</span>
+          <span>{{scope.row.description}}</span>
         </template>
       </el-table-column>
 
-
       <el-table-column class-name="status-col" :label="$t('table.status')" width="80">
         <template slot-scope="scope">
-          <el-tag :type="scope.row.status | statusFilter">{{scope.row.status}}</el-tag>
+          <el-tag :type="scope.row.status | statusFilter">{{$t('role.status.'+scope.row.status)}}</el-tag>
         </template>
       </el-table-column>
 
@@ -69,7 +68,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column width="100px" align="center" :label="$t('table.updatedBy')">
+      <el-table-column width="90" align="center" :label="$t('table.updatedBy')">
         <template slot-scope="scope">
           <span>{{scope.row.updatedBy}}</span>
         </template>
@@ -81,16 +80,15 @@
         </template>
       </el-table-column>
 
-      <el-table-column width="100px" align="center" :label="$t('table.createdBy')">
+      <el-table-column width="90" align="center" :label="$t('table.createdBy')">
         <template slot-scope="scope">
           <span>{{scope.row.createdBy}}</span>
         </template>
       </el-table-column>
 
-
       <el-table-column align="center" label="Actions" width="120">
         <template slot-scope="scope">
-          <router-link :to="'/user/edit/'+scope.row.id">
+          <router-link :to="'/role/edit/'+scope.row.id">
             <el-button type="primary" size="small" icon="el-icon-edit">Edit</el-button>
           </router-link>
         </template>
@@ -109,10 +107,10 @@
 </template>
 
 <script>
-  import { getList } from '@/api/organization/user'
+  import { getList } from '@/api/organization/role'
 
   export default {
-    name: 'userList',
+    name: 'roleList',
     data() {
       return {
         list: null,
@@ -123,13 +121,12 @@
           page: 1,
           limit: 10
         },
-        userStatus: ['lock', 'deleted', 'ok']
+        roleStatus: ['deleted', 'ok']
       }
     },
     filters: {
       statusFilter(status) {
         const statusMap = {
-          lock: 'danger',
           deleted: 'info',
           ok: 'success'
         }

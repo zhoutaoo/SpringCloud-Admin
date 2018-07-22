@@ -7,11 +7,11 @@ const count = 100
 for (let i = 0; i < count; i++) {
   List.push(Mock.mock({
     id: '@increment',
-    username: '@last',
+    'code|1': ['ADMIN', 'IT'],
     name: '@cname',
-    mobile: '156@integer(10000000,99999999)',
-    'status|1': ['lock', 'deleted', 'ok'],
-    updatedTime: +Mock.Random.date('T'),
+    description: '@cparagraph(1, 3)',
+    'status|1': ['deleted', 'ok'],
+    updatedTime: '@datetime',
     createdTime: '@datetime',
     createdBy: '@first',
     updatedBy: '@first'
@@ -21,12 +21,12 @@ for (let i = 0; i < count; i++) {
 export default {
   getList: config => {
     const {
-      username, mobile, status, page = 1, limit = 20, sort
+      code, name, status, page = 1, limit = 20, sort
     } = param2Obj(config.url)
 
     let mockList = List.filter(item => {
-      if (username && item.username.indexOf(username) < 0) return false
-      if (mobile && item.mobile.indexOf(mobile) < 0) return false
+      if (code && item.code.indexOf(code) < 0) return false
+      if (name && item.name.indexOf(name) < 0) return false
       if (status && item.status.indexOf(status) < 0) return false
       return true
     })
