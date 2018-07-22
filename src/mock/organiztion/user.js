@@ -9,7 +9,7 @@ for (let i = 0; i < count; i++) {
     id: '@increment',
     username: '@last',
     name: '@cname',
-    mobile: '156@integer(10000000,99999999)',
+    mobile: '13@integer(100000000,999999999)',
     'status|1': ['lock', 'deleted', 'ok'],
     updatedTime: +Mock.Random.date('T'),
     createdTime: '@datetime',
