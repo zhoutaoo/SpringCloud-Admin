@@ -127,6 +127,8 @@ export default {
     createdTime: '创建时间',
     createdBy: '创建人',
     status: '状态',
+    create: '创建',
+    edit: '编辑',
 
     dynamicTips1: '固定表头, 按照表头顺序排序',
     dynamicTips2: '不固定表头, 按照点击顺序排序',
@@ -145,7 +147,6 @@ export default {
     author: '作者',
     readings: '阅读数',
     actions: '操作',
-    edit: '编辑',
     publish: '发布',
     draft: '草稿',
     delete: '删除',

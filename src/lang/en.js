@@ -127,7 +127,8 @@ export default {
     createdTime: 'Created Time',
     createdBy: 'Created By',
     status: 'Status',
-
+    create: 'Create',
+    edit: 'Edit',
     dynamicTips1: 'Fixed header, sorted by header order',
     dynamicTips2: 'Not fixed header, sorted by click order',
     dragTips1: 'The default order',
@@ -145,7 +146,6 @@ export default {
     author: 'Author',
     readings: 'Readings',
     actions: 'Actions',
-    edit: 'Edit',
     publish: 'Publish',
     draft: 'Draft',
     delete: 'Delete',

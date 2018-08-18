@@ -1,36 +1,34 @@
 <template>
   <div class="app-container">
-
     <div class="filter-container">
+
+      <!--查询条件-->
       <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item"
                 :placeholder="$t('user.username')" v-model="listQuery.username">
       </el-input>
-
       <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item"
                 :placeholder="$t('user.mobile')" v-model="listQuery.mobile">
       </el-input>
-
       <el-select clearable style="width: 90px" class="filter-item" v-model="listQuery.status"
                  :placeholder="$t('table.status')">
         <el-option v-for="item in userStatus" :key="item" :label="item" :value="item">
         </el-option>
       </el-select>
 
+      <!--动作按钮-->
       <el-button class="filter-item" type="primary" v-waves icon="el-icon-search" @click="handleFilter">
         {{$t('table.search')}}
       </el-button>
-
-      <el-button class="filter-item" style="margin-left: 10px;" @click="handleCreate" type="primary"
-                 icon="el-icon-edit">
+      <el-button class="filter-item" style="margin-left: 10px;" @click="handleCreate" type="primary" icon="el-icon-edit">
         {{$t('search.add')}}
       </el-button>
-
       <el-button class="filter-item" type="primary" :loading="downloadLoading" v-waves icon="el-icon-download"
                  @click="handleDownload">
         {{$t('search.export')}}
       </el-button>
     </div>
 
+    <!--列表-->
     <el-table :data="list" v-loading.body="listLoading" border fit highlight-current-row style="width: 100%">
       <el-table-column align="center" label="ID" width="80">
         <template slot-scope="scope">
@@ -55,7 +53,6 @@
           <span>{{scope.row.mobile}}</span>
         </template>
       </el-table-column>
-
 
       <el-table-column class-name="status-col" :label="$t('table.status')" width="80">
         <template slot-scope="scope">
@@ -87,16 +84,19 @@
         </template>
       </el-table-column>
 
-
-      <el-table-column align="center" label="Actions" width="120">
+      <el-table-column align="center" label="Actions" width="150">
         <template slot-scope="scope">
-          <router-link :to="'/user/edit/'+scope.row.id">
-            <el-button type="primary" size="small" icon="el-icon-edit">Edit</el-button>
-          </router-link>
+          <el-button type="primary" size="mini" @click="handleUpdate(scope.row)">
+            {{$t('table.edit')}}
+          </el-button>
+          <el-button type="danger"  size="mini" @click="handleDelete">
+            {{$t('table.delete')}}
+          </el-button>
         </template>
       </el-table-column>
     </el-table>
 
+    <!--翻页工具条-->
     <div class="pagination-container">
       <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange"
                      :current-page="listQuery.page"
@@ -105,14 +105,39 @@
       </el-pagination>
     </div>
 
+    <!--添加或编辑对话框-->
+    <el-dialog :title="$t('table.' + dialogStatus)" :visible.sync="dialogFormVisible">
+      <el-form :rules="rules" ref="dataForm" :model="temp" label-position="left" label-width="70px" style='width: 400px; margin-left:30px;'>
+        <el-form-item :label="$t('user.username')" prop="username">
+          <el-input v-model="temp.username" placeholder="Please input a username"></el-input>
+        </el-form-item>
+        <el-form-item :label="$t('user.mobile')" prop="mobile">
+          <el-input v-model="temp.mobile" placeholder="Please input mobile number"></el-input>
+        </el-form-item>
+        <el-form-item :label="$t('user.name')" prop="name">
+          <el-input v-model="temp.name" placeholder="Please input a name"></el-input>
+        </el-form-item>
+      </el-form>
+      <!--对话框动作按钮-->
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">{{$t('table.cancel')}}</el-button>
+        <el-button v-if="dialogStatus=='create'" type="primary" @click="createData">{{$t('table.confirm')}}</el-button>
+        <el-button v-else type="primary" @click="updateData">{{$t('table.confirm')}}</el-button>
+      </div>
+    </el-dialog>
+
   </div>
 </template>
 
 <script>
-  import { getList } from '@/api/organization/user'
+  import { getList, createUser, updateUser } from '@/api/organization/user'
+  import waves from '@/directive/waves' // 水波纹指令
 
   export default {
     name: 'userList',
+    directives: {
+      waves
+    },
     data() {
       return {
         list: null,
@@ -123,7 +148,20 @@
           page: 1,
           limit: 10
         },
-        userStatus: ['lock', 'deleted', 'ok']
+        userStatus: ['lock', 'deleted', 'ok'],
+        dialogStatus: 'create',
+        dialogFormVisible: false,
+        rules: {
+          username: [{ required: true, message: 'username is required', trigger: 'blur' }],
+          name: [{ required: false, message: 'name is required', trigger: 'blur' }],
+          mobile: [{ required: true, message: 'mobile is required', trigger: 'blur' }]
+        },
+        temp: {
+          username: '',
+          name: '',
+          mobile: ''
+        },
+        downloadLoading: false
       }
     },
     filters: {
@@ -148,14 +186,6 @@
           this.listLoading = false
         })
       },
-      handleCreate() {
-        this.resetTemp()
-        this.dialogStatus = 'create'
-        this.dialogFormVisible = true
-        this.$nextTick(() => {
-          this.$refs['dataForm'].clearValidate()
-        })
-      },
       handleFilter() {
         this.listQuery.page = 1
         this.getList()
@@ -167,6 +197,63 @@
       handleCurrentChange(val) {
         this.listQuery.page = val
         this.getList()
+      },
+      resetTemp() {
+        this.temp = {}
+      },
+      handleCreate() {
+        this.resetTemp()
+        this.dialogStatus = 'create'
+        this.dialogFormVisible = true
+        this.$nextTick(() => {
+          this.$refs['dataForm'].clearValidate()
+        })
+      },
+      createData() {
+        this.$refs['dataForm'].validate((valid) => {
+          if (valid) {
+            createUser(this.temp).then(() => {
+              this.dialogFormVisible = false
+              this.$notify({
+                title: '创建成功',
+                message: '创建成功',
+                type: 'success',
+                duration: 2000
+              })
+            })
+          }
+        })
+        getList()
+      },
+      handleUpdate(row) {
+        this.temp = Object.assign({}, row) // copy obj
+        this.dialogStatus = 'edit'
+        this.dialogFormVisible = true
+        this.$nextTick(() => {
+          this.$refs['dataForm'].clearValidate()
+        })
+      },
+      updateData() {
+        this.$refs['dataForm'].validate((valid) => {
+          if (valid) {
+            updateUser(this.temp).then(() => {
+              this.dialogFormVisible = false
+              this.$notify({
+                title: '编辑成功',
+                message: '编辑成功',
+                type: 'success',
+                duration: 2000
+              })
+            })
+          }
+        })
+        getList()
+      },
+      handleDelete() {
+
+      },
+      handleDownload() {
+
       }
     }
   }

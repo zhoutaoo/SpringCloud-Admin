@@ -41,5 +41,17 @@ export default {
       total: mockList.length,
       items: pageList
     }
+  },
+  createUser: () => {
+    return {
+      code: '000000',
+      mesg: '处理成功'
+    }
+  },
+  updateUser: () => {
+    return {
+      code: '000000',
+      mesg: '处理成功'
+    }
   }
 }
