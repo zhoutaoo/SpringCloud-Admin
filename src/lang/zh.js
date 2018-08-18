@@ -4,6 +4,7 @@ export default {
     introduction: '简述',
     organization: '组织管理',
     user: '人员',
+    role: '角色',
     group: '组',
     documentation: '文档',
     guide: '引导页',

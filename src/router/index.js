@@ -96,7 +96,7 @@ export const asyncRouterMap = [
         component: () => import('@/views/organization/group/index'),
         meta: {
           title: 'group',
-          icon: 'form'
+          icon: 'user'
         }
       }]
   },

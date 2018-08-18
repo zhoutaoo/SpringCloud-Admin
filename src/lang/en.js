@@ -3,6 +3,7 @@ export default {
     dashboard: 'Dashboard',
     organization: 'Organization',
     user: 'User',
+    role: 'Role',
     group: 'Group',
     introduction: 'Introduction',
     documentation: 'Documentation',
