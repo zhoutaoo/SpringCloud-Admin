@@ -30,8 +30,9 @@ Mock.mock(/\/transaction\/list/, 'get', transactionAPI.getList)
 
 // 用户相关
 Mock.mock(/\/user/, 'get', userAPI.getList)
-Mock.mock(/\/user/, 'post', userAPI.createUser())
-Mock.mock(/\/user/, 'put', userAPI.updateUser())
+Mock.mock(/\/user/, 'post', userAPI.createUser)
+Mock.mock(/\/user/, 'put', userAPI.updateUser)
+Mock.mock(/\/user/, 'delete', userAPI.deleteUser)
 Mock.mock(/\/role/, 'get', roleAPI.getList)
 
 export default Mock

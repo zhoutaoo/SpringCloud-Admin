@@ -18,8 +18,15 @@ export function createUser(data) {
 
 export function updateUser(data) {
   return request({
-    url: '/user',
+    url: '/user/' + data.id,
     method: 'put',
     data
+  })
+}
+
+export function deleteUser(id) {
+  return request({
+    url: '/user/' + id,
+    method: 'delete'
   })
 }

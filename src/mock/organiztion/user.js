@@ -4,6 +4,18 @@ import { param2Obj } from '@/utils'
 const List = []
 const count = 100
 
+function newUser(data) {
+  const mock = Mock.mock({
+    id: '@increment',
+    status: 'ok',
+    updatedTime: '@now',
+    createdTime: '@now',
+    createdBy: '@first',
+    updatedBy: '@first'
+  })
+  return Object.assign(mock, JSON.parse(data))
+}
+
 for (let i = 0; i < count; i++) {
   List.push(Mock.mock({
     id: '@increment',
@@ -15,7 +27,8 @@ for (let i = 0; i < count; i++) {
     createdTime: '@datetime',
     createdBy: '@first',
     updatedBy: '@first'
-  }))
+  })
+  )
 }
 
 export default {
@@ -42,13 +55,25 @@ export default {
       items: pageList
     }
   },
-  createUser: () => {
+  createUser: config => {
+    List.push(newUser(config.body))
     return {
       code: '000000',
       mesg: '处理成功'
     }
   },
-  updateUser: () => {
+  updateUser: config => {
+    const id = config.url.substring(config.url.lastIndexOf('/') + 1)
+    List.splice(id - 101, 1, newUser(config.body))
+    return {
+      code: '000000',
+      mesg: '处理成功'
+    }
+  },
+  deleteUser: config => {
+    const id = config.url.substring(config.url.lastIndexOf('/') + 1)
+    console.log(id - 101)
+    List.splice(id - 101, 1)
     return {
       code: '000000',
       mesg: '处理成功'

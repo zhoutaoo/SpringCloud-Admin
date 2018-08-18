@@ -129,6 +129,7 @@ export default {
     status: 'Status',
     create: 'Create',
     edit: 'Edit',
+    action: 'Actions',
     dynamicTips1: 'Fixed header, sorted by header order',
     dynamicTips2: 'Not fixed header, sorted by click order',
     dragTips1: 'The default order',

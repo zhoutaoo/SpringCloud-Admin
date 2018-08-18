@@ -84,12 +84,12 @@
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="Actions" width="150">
+      <el-table-column align="center" :label="$t('table.action')" width="150">
         <template slot-scope="scope">
           <el-button type="primary" size="mini" @click="handleUpdate(scope.row)">
             {{$t('table.edit')}}
           </el-button>
-          <el-button type="danger"  size="mini" @click="handleDelete">
+          <el-button type="danger"  size="mini" @click="deleteUser(scope.row.id)">
             {{$t('table.delete')}}
           </el-button>
         </template>
@@ -107,7 +107,7 @@
 
     <!--添加或编辑对话框-->
     <el-dialog :title="$t('table.' + dialogStatus)" :visible.sync="dialogFormVisible">
-      <el-form :rules="rules" ref="dataForm" :model="temp" label-position="left" label-width="70px" style='width: 400px; margin-left:30px;'>
+      <el-form :rules="rules" ref="dataForm" :model="temp" label-position="left" label-width="70px" style='width: 80%; margin-left:30px;'>
         <el-form-item :label="$t('user.username')" prop="username">
           <el-input v-model="temp.username" placeholder="Please input a username"></el-input>
         </el-form-item>
@@ -130,11 +130,11 @@
 </template>
 
 <script>
-  import { getList, createUser, updateUser } from '@/api/organization/user'
+  import { getList, createUser, updateUser, deleteUser } from '@/api/organization/user'
   import waves from '@/directive/waves' // 水波纹指令
 
   export default {
-    name: 'userList',
+    name: 'userManagement',
     directives: {
       waves
     },
@@ -198,11 +198,9 @@
         this.listQuery.page = val
         this.getList()
       },
-      resetTemp() {
-        this.temp = {}
-      },
+
       handleCreate() {
-        this.resetTemp()
+        this.temp = {}
         this.dialogStatus = 'create'
         this.dialogFormVisible = true
         this.$nextTick(() => {
@@ -220,11 +218,12 @@
                 type: 'success',
                 duration: 2000
               })
+              this.getList()
             })
           }
         })
-        getList()
       },
+
       handleUpdate(row) {
         this.temp = Object.assign({}, row) // copy obj
         this.dialogStatus = 'edit'
@@ -244,16 +243,24 @@
                 type: 'success',
                 duration: 2000
               })
+              this.getList()
             })
           }
         })
-        getList()
       },
-      handleDelete() {
-
+      deleteUser(id) {
+        deleteUser(id).then(() => {
+          this.$notify({
+            title: '删除成功',
+            message: '删除成功',
+            type: 'success',
+            duration: 2000
+          })
+          this.getList()
+        })
       },
       handleDownload() {
-
+        console.log('download')
       }
     }
   }
