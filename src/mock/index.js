@@ -11,9 +11,9 @@ import roleAPI from './organiztion/role'
 // })
 
 // 登录相关
-Mock.mock(/\/login\/login/, 'post', loginAPI.loginByUsername)
+Mock.mock(/\/oauth\/token/, 'post', loginAPI.loginByUsername)
 Mock.mock(/\/login\/logout/, 'post', loginAPI.logout)
-Mock.mock(/\/user\/info\.*/, 'get', loginAPI.getUserInfo)
+Mock.mock(/\/user\/current/, 'get', loginAPI.getUserInfo)
 
 // 文章相关
 Mock.mock(/\/article\/list/, 'get', articleAPI.getList)
@@ -33,6 +33,7 @@ Mock.mock(/\/user/, 'get', userAPI.getList)
 Mock.mock(/\/user/, 'post', userAPI.createUser)
 Mock.mock(/\/user/, 'put', userAPI.updateUser)
 Mock.mock(/\/user/, 'delete', userAPI.deleteUser)
+// 角色相关
 Mock.mock(/\/role/, 'get', roleAPI.getList)
 
 export default Mock
