@@ -110,7 +110,12 @@ export default {
   user: {
     username: 'Username',
     name: 'Name',
-    mobile: 'Mobile'
+    mobile: 'Mobile',
+    status: {
+      ok: 'Ok',
+      lock: 'Lock',
+      deleted: 'Deleted'
+    }
   },
   role: {
     code: 'Code',
@@ -118,7 +123,7 @@ export default {
     description: 'Description',
     status: {
       ok: 'Ok',
-      deleted: 'deleted'
+      deleted: 'Deleted'
     }
   },
   table: {

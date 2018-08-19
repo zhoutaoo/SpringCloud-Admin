@@ -9,10 +9,8 @@
       <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item"
                 :placeholder="$t('user.mobile')" v-model="listQuery.mobile">
       </el-input>
-      <el-select clearable style="width: 90px" class="filter-item" v-model="listQuery.status"
-                 :placeholder="$t('table.status')">
-        <el-option v-for="item in userStatus" :key="item" :label="item" :value="item">
-        </el-option>
+      <el-select clearable style="width: 90px" class="filter-item" v-model="listQuery.status" :placeholder="$t('table.status')">
+        <el-option v-for="item in userStatus" :key="item" :label="$t('user.status.'+item)" :value="item"></el-option>
       </el-select>
 
       <!--动作按钮-->
@@ -56,7 +54,7 @@
 
       <el-table-column class-name="status-col" :label="$t('table.status')" width="80">
         <template slot-scope="scope">
-          <el-tag :type="scope.row.status | statusFilter">{{scope.row.status}}</el-tag>
+          <el-tag :type="scope.row.status | statusFilter">{{$t('user.status.'+scope.row.status)}}</el-tag>
         </template>
       </el-table-column>
 

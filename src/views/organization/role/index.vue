@@ -5,26 +5,20 @@
       <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item"
                 :placeholder="$t('role.code')" v-model="listQuery.code">
       </el-input>
-
       <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item"
                 :placeholder="$t('role.name')" v-model="listQuery.name">
       </el-input>
-
-      <el-select clearable style="width: 90px" class="filter-item" v-model="listQuery.status"
-                 :placeholder="$t('table.status')">
-        <el-option v-for="item in roleStatus" :key="item" :label="$t('role.status.'+item)" :value="item">
-        </el-option>
+      <el-select clearable style="width: 90px" class="filter-item" v-model="listQuery.status" :placeholder="$t('table.status')">
+        <el-option v-for="item in roleStatus" :key="item" :label="$t('role.status.'+item)" :value="item"></el-option>
       </el-select>
 
       <el-button class="filter-item" type="primary" v-waves icon="el-icon-search" @click="handleFilter">
         {{$t('table.search')}}
       </el-button>
-
       <el-button class="filter-item" style="margin-left: 10px;" @click="handleCreate" type="primary"
                  icon="el-icon-edit">
         {{$t('search.add')}}
       </el-button>
-
       <el-button class="filter-item" type="primary" :loading="downloadLoading" v-waves icon="el-icon-download"
                  @click="handleDownload">
         {{$t('search.export')}}
@@ -164,6 +158,9 @@
       handleCurrentChange(val) {
         this.listQuery.page = val
         this.getList()
+      },
+      handleDownload() {
+        console.log('download')
       }
     }
   }

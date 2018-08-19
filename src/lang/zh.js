@@ -110,7 +110,12 @@ export default {
   user: {
     username: '用户名',
     name: '姓名',
-    mobile: '手机'
+    mobile: '手机号',
+    status: {
+      ok: '正常',
+      lock: '冻结',
+      deleted: '已删除'
+    }
   },
   role: {
     code: '代码',
