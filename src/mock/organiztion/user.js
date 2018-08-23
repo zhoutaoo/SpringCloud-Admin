@@ -22,7 +22,7 @@ for (let i = 0; i < count; i++) {
     username: '@last',
     name: '@cname',
     mobile: '13@integer(100000000,999999999)',
-    'status|1': ['lock', 'deleted', 'ok'],
+    'status|1': ['ok', 'lock', 'deleted'],
     updatedTime: +Mock.Random.date('T'),
     createdTime: '@datetime',
     createdBy: '@first',

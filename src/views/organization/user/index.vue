@@ -46,7 +46,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column width="110px" align="center" :label="$t('user.mobile')">
+      <el-table-column width="120px" align="center" :label="$t('user.mobile')">
         <template slot-scope="scope">
           <span>{{scope.row.mobile}}</span>
         </template>
@@ -64,7 +64,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column width="100px" align="center" :label="$t('table.updatedBy')">
+      <el-table-column width="110px" align="center" :label="$t('table.updatedBy')">
         <template slot-scope="scope">
           <span>{{scope.row.updatedBy}}</span>
         </template>
@@ -76,7 +76,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column width="100px" align="center" :label="$t('table.createdBy')">
+      <el-table-column width="110px" align="center" :label="$t('table.createdBy')">
         <template slot-scope="scope">
           <span>{{scope.row.createdBy}}</span>
         </template>
@@ -123,7 +123,6 @@
         <el-button v-else type="primary" @click="updateData">{{$t('table.confirm')}}</el-button>
       </div>
     </el-dialog>
-
   </div>
 </template>
 

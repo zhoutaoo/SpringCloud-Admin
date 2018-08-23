@@ -64,7 +64,7 @@ export const asyncRouterMap = [
   {
     path: '/organization',
     component: Layout,
-    redirect: '/organization/user/index',
+    redirect: '/organization/user',
     name: 'organization',
     meta: {
       title: 'organization',

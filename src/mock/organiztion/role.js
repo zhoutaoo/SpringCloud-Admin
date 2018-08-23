@@ -2,15 +2,27 @@ import Mock from 'mockjs'
 import { param2Obj } from '@/utils'
 
 const List = []
-const count = 100
+const count = 10
+
+function newRole(data) {
+  const mock = Mock.mock({
+    id: '@increment',
+    status: 'ok',
+    updatedTime: '@now',
+    createdTime: '@now',
+    createdBy: '@first',
+    updatedBy: '@first'
+  })
+  return Object.assign(mock, JSON.parse(data))
+}
 
 for (let i = 0; i < count; i++) {
   List.push(Mock.mock({
     id: '@increment',
-    'code|1': ['ADMIN', 'IT'],
+    'code|1': ['ADMIN', 'IT', 'EDITOR'],
     name: '@cname',
     description: '@cparagraph(1, 3)',
-    'status|1': ['deleted', 'ok'],
+    'status|1': ['ok', 'deleted'],
     updatedTime: '@datetime',
     createdTime: '@datetime',
     createdBy: '@first',
@@ -40,6 +52,30 @@ export default {
     return {
       total: mockList.length,
       items: pageList
+    }
+  },
+  createRole: config => {
+    List.push(newRole(config.body))
+    return {
+      code: '000000',
+      mesg: '处理成功'
+    }
+  },
+  updateRole: config => {
+    const id = config.url.substring(config.url.lastIndexOf('/') + 1)
+    List.splice(id - 101, 1, newRole(config.body))
+    return {
+      code: '000000',
+      mesg: '处理成功'
+    }
+  },
+  deleteRole: config => {
+    const id = config.url.substring(config.url.lastIndexOf('/') + 1)
+    console.log(id - 201)
+    List.splice(id - 201, 1)
+    return {
+      code: '000000',
+      mesg: '处理成功'
     }
   }
 }
