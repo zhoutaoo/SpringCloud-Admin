@@ -11,7 +11,7 @@ import roleAPI from './organiztion/role'
 // })
 
 // 登录相关
-Mock.mock(/\/oauth\/token/, 'post', loginAPI.loginByUsername)
+// Mock.mock(/\/authorization-server\/oauth\/token/, 'post', loginAPI.loginByUsername)
 Mock.mock(/\/login\/logout/, 'post', loginAPI.logout)
 Mock.mock(/\/user\/current/, 'get', loginAPI.getUserInfo)
 

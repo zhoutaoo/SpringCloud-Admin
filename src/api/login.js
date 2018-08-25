@@ -2,13 +2,19 @@ import request from '@/utils/request'
 
 export function loginByUsername(username, password) {
   const data = {
-    username,
-    password
+    username: username,
+    password: password,
+    grant_type: 'password',
+    scope: 'read'
   }
   return request({
-    url: '/oauth/token',
+    url: '/authorization-server/oauth/token',
+    headers: {
+      'Authorization': 'Basic dGVzdF9jbGllbnQ6dGVzdF9zZWNyZXQ=',
+      'Content-Type': 'application/x-www-form-urlencoded'
+    },
     method: 'post',
-    data
+    params: data
   })
 }
 

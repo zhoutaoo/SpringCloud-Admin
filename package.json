@@ -1,8 +1,8 @@
 {
-  "name": "vue-element-admin",
+  "name": "sc-admin",
   "version": "3.7.2",
   "description": "A magical vue admin. Typical templates for enterprise applications. Newest development stack of vue. Lots of awesome features",
-  "author": "Pan <panfree23@gmail.com>",
+  "author": "zhoutaoo@foxmail.com",
   "license": "MIT",
   "scripts": {
     "dev": "cross-env BABEL_ENV=development webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
