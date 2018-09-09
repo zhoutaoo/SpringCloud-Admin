@@ -8,7 +8,8 @@
       <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item"
                 :placeholder="$t('role.name')" v-model="listQuery.name">
       </el-input>
-      <el-select clearable style="width: 90px" class="filter-item" v-model="listQuery.status" :placeholder="$t('table.status')">
+      <el-select clearable style="width: 90px" class="filter-item" v-model="listQuery.status"
+                 :placeholder="$t('table.status')">
         <el-option v-for="item in roleStatus" :key="item" :label="$t('role.status.'+item)" :value="item"></el-option>
       </el-select>
 
@@ -52,7 +53,7 @@
 
       <el-table-column class-name="status-col" :label="$t('table.status')" width="80">
         <template slot-scope="scope">
-          <el-tag :type="scope.row.status | statusFilter">{{$t('role.status.'+scope.row.status)}}</el-tag>
+          <el-tag :type="scope.row.status | statusFilter">{{$t('role.status.' + scope.row.status)}}</el-tag>
         </template>
       </el-table-column>
 
@@ -85,7 +86,7 @@
           <el-button type="primary" size="mini" @click="handleUpdate(scope.row)">
             {{$t('table.edit')}}
           </el-button>
-          <el-button type="danger"  size="mini" @click="deleteRole(scope.row.id)">
+          <el-button type="danger" size="mini" @click="deleteRole(scope.row.id)">
             {{$t('table.delete')}}
           </el-button>
         </template>
@@ -103,7 +104,8 @@
 
     <!--添加或编辑对话框-->
     <el-dialog :title="$t('table.' + dialogStatus)" :visible.sync="dialogFormVisible">
-      <el-form :rules="rules" ref="dataForm" :model="temp" label-position="left" label-width="70px" style='width: 80%; margin-left:30px;'>
+      <el-form :rules="rules" ref="dataForm" :model="temp" label-position="left" label-width="70px"
+               style='width: 80%; margin-left:30px;'>
         <el-form-item :label="$t('role.code')" prop="code">
           <el-input v-model="temp.code" placeholder="Please input a code"></el-input>
         </el-form-item>
@@ -125,7 +127,9 @@
 </template>
 
 <script>
-  import { getList, createRole, updateRole, deleteRole } from '@/api/organization/role'
+  import {
+    getList, createRole, updateRole, deleteRole
+  } from '@/api/organization/role'
   import waves from '@/directive/waves' // 水波纹指令
 
   export default {
@@ -147,9 +151,21 @@
         dialogStatus: 'create',
         dialogFormVisible: false,
         rules: {
-          code: [{ required: true, message: 'code is required', trigger: 'blur' }],
-          name: [{ required: true, message: 'name is required', trigger: 'blur' }],
-          description: [{ required: false, message: 'description', trigger: 'blur' }]
+          code: [{
+            required: true,
+            message: 'code is required',
+            trigger: 'blur'
+          }],
+          name: [{
+            required: true,
+            message: 'name is required',
+            trigger: 'blur'
+          }],
+          description: [{
+            required: false,
+            message: 'description',
+            trigger: 'blur'
+          }]
         },
         temp: {
           code: '',
@@ -243,14 +259,20 @@
         })
       },
       deleteRole(id) {
-        deleteRole(id).then(() => {
-          this.$notify({
-            title: '删除成功',
-            message: '删除成功',
-            type: 'success',
-            duration: 2000
+        this.$confirm('此操作将永久删除, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          deleteRole(id).then(() => {
+            this.$notify({
+              title: '删除成功',
+              message: '删除成功',
+              type: 'success',
+              duration: 2000
+            })
+            this.getList()
           })
-          this.getList()
         })
       },
 
@@ -261,14 +283,3 @@
   }
 </script>
 
-<style scoped>
-  .edit-input {
-    padding-right: 100px;
-  }
-
-  .cancel-btn {
-    position: absolute;
-    right: 15px;
-    top: 10px;
-  }
-</style>

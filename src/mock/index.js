@@ -5,6 +5,7 @@ import remoteSearchAPI from './remoteSearch'
 import transactionAPI from './transaction'
 import userAPI from './organiztion/user'
 import roleAPI from './organiztion/role'
+import groupAPI from './organiztion/group'
 
 // Mock.setup({
 //   timeout: '350-600'
@@ -38,5 +39,10 @@ Mock.mock(/\/role/, 'get', roleAPI.getList)
 Mock.mock(/\/role/, 'post', roleAPI.createRole)
 Mock.mock(/\/role/, 'put', roleAPI.updateRole)
 Mock.mock(/\/role/, 'delete', roleAPI.deleteRole)
+// 用户组
+Mock.mock(/\/group/, 'get', groupAPI.getGroup)
+Mock.mock(/\/group/, 'post', groupAPI.createRole)
+Mock.mock(/\/group/, 'put', groupAPI.updateRole)
+Mock.mock(/\/group/, 'delete', groupAPI.deleteRole)
 
 export default Mock

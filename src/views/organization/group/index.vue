@@ -1,86 +1,85 @@
 <template>
   <div class="app-container">
-
-    <el-table :data="list" v-loading.body="listLoading" border fit highlight-current-row style="width: 100%">
-      <el-table-column align="center" label="ID" width="80">
-        <template slot-scope="scope">
-          <span>{{scope.row.id}}</span>
-        </template>
-      </el-table-column>
-
-      <el-table-column width="180px" align="center" label="Date">
-        <template slot-scope="scope">
-          <span>{{scope.row.timestamp | parseTime('{y}-{m}-{d} {h}:{i}')}}</span>
-        </template>
-      </el-table-column>
-
-      <el-table-column width="120px" align="center" label="Author">
-        <template slot-scope="scope">
-          <span>{{scope.row.author}}</span>
-        </template>
-      </el-table-column>
-
-      <el-table-column width="100px" label="Importance">
-        <template slot-scope="scope">
-          <svg-icon v-for="n in +scope.row.importance" icon-class="star" class="meta-item__icon" :key="n"></svg-icon>
-        </template>
-      </el-table-column>
-
-      <el-table-column class-name="status-col" label="Status" width="110">
-        <template slot-scope="scope">
-          <el-tag :type="scope.row.status | statusFilter">{{scope.row.status}}</el-tag>
-        </template>
-      </el-table-column>
-
-      <el-table-column min-width="300px" label="Title">
-        <template slot-scope="scope">
-
-          <router-link class="link-type" :to="'/example/edit/'+scope.row.id">
-            <span>{{ scope.row.title }}</span>
-          </router-link>
-        </template>
-      </el-table-column>
-
-      <el-table-column align="center" label="Actions" width="120">
-        <template slot-scope="scope">
-          <router-link :to="'/example/edit/'+scope.row.id">
-            <el-button type="primary" size="small" icon="el-icon-edit">Edit</el-button>
-          </router-link>
-        </template>
-      </el-table-column>
-    </el-table>
-
-    <div class="pagination-container">
-      <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="listQuery.page"
-        :page-sizes="[10,20,30, 50]" :page-size="listQuery.limit" layout="total, sizes, prev, pager, next, jumper" :total="total">
-      </el-pagination>
+    <div class="filter-container">
+      <el-button-group>
+        <el-button type="primary" icon="plus" @click="handlerAdd">添加</el-button>
+        <el-button type="primary" icon="edit" @click="handlerUpdate">编辑</el-button>
+        <el-button type="primary" icon="delete" @click="handlerDelete">删除</el-button>
+      </el-button-group>
     </div>
+
+    <el-row>
+      <el-col :span="8" style='margin-top:15px;'>
+        <el-tree class="filter-tree" node-key="id" highlight-current default-expand-all
+                 :data="treeData"
+                 :props="defaultProps"
+                 :filter-node-method="filterNode"
+                 @node-click="getNodeData">
+        </el-tree>
+      </el-col>
+      <el-col :span="16" style='margin-top:15px;'>
+        <el-card class="box-card">
+          <el-form :label-position="labelPosition" label-width="80px" :model="form" ref="form">
+            <el-form-item label="父级节点" prop="parentId">
+              <el-input v-model="form.parentId" :disabled="formEdit" placeholder="请输入父级节点"></el-input>
+            </el-form-item>
+            <el-form-item label="节点编号" prop="parentId" v-if="formEdit">
+              <el-input v-model="form.deptId" :disabled="formEdit" placeholder="节点编号"></el-input>
+            </el-form-item>
+            <el-form-item label="组名称" prop="name">
+              <el-input v-model="form.name" :disabled="formEdit"  placeholder="请输入名称"></el-input>
+            </el-form-item>
+            <el-form-item label="排序" prop="orderNum">
+              <el-input v-model="form.orderNum" :disabled="formEdit" placeholder="请输入排序"></el-input>
+            </el-form-item>
+            <el-form-item v-if="formStatus == 'update'">
+              <el-button type="primary" @click="update">更新</el-button>
+              <el-button @click="onCancel">取消</el-button>
+            </el-form-item>
+            <el-form-item v-if="formStatus == 'create'">
+              <el-button type="primary" @click="create">保存</el-button>
+              <el-button @click="onCancel">取消</el-button>
+            </el-form-item>
+          </el-form>
+        </el-card>
+      </el-col>
+    </el-row>
 
   </div>
 </template>
 
 <script>
-import { fetchList } from '@/api/article'
+import { getGroup } from '@/api/organization/group'
 
 export default {
-  name: 'articleList',
+  name: 'groupList',
   data() {
     return {
-      list: null,
       total: 0,
       listLoading: true,
-      listQuery: {
-        page: 1,
-        limit: 10
+      currentId: '',
+      formEdit: true,
+      formStatus: '',
+      formAdd: true,
+      treeData: [],
+      defaultProps: {
+        children: 'children',
+        label: 'name'
+      },
+      labelPosition: 'right',
+      form: {
+        name: undefined,
+        orderNum: undefined,
+        parentId: undefined,
+        deptId: undefined
       }
     }
   },
   filters: {
     statusFilter(status) {
       const statusMap = {
-        published: 'success',
-        draft: 'info',
-        deleted: 'danger'
+        deleted: 'info',
+        ok: 'success'
       }
       return statusMap[status]
     }
@@ -91,31 +90,32 @@ export default {
   methods: {
     getList() {
       this.listLoading = true
-      fetchList(this.listQuery).then(response => {
-        this.list = response.data.items
-        this.total = response.data.total
+      getGroup('-1').then(response => {
+        this.treeData = response.data.data
         this.listLoading = false
       })
     },
-    handleSizeChange(val) {
-      this.listQuery.limit = val
-      this.getList()
+
+    handlerAdd() {
+
     },
-    handleCurrentChange(val) {
-      this.listQuery.page = val
-      this.getList()
+    handlerUpdate() {
+
+    },
+    handlerDelete() {
+
+    },
+    getNodeData(data) {
+      if (!this.formEdit) {
+        this.formStatus = 'update'
+      }
+      getGroup(data.id).then(response => {
+        this.form = response.data.data
+      })
+      this.currentId = data.id
+    },
+    filterNode() {
     }
   }
 }
 </script>
-
-<style scoped>
-.edit-input {
-  padding-right: 100px;
-}
-.cancel-btn {
-  position: absolute;
-  right: 15px;
-  top: 10px;
-}
-</style>
