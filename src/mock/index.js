@@ -3,7 +3,7 @@ import loginAPI from './login'
 import articleAPI from './article'
 import remoteSearchAPI from './remoteSearch'
 import transactionAPI from './transaction'
-import userAPI from './organiztion/user'
+// import userAPI from './organiztion/user'
 import roleAPI from './organiztion/role'
 import groupAPI from './organiztion/group'
 
@@ -30,10 +30,10 @@ Mock.mock(/\/search\/user/, 'get', remoteSearchAPI.searchUser)
 Mock.mock(/\/transaction\/list/, 'get', transactionAPI.getList)
 
 // 用户相关
-Mock.mock(/\/user/, 'get', userAPI.getList)
-Mock.mock(/\/user/, 'post', userAPI.createUser)
-Mock.mock(/\/user/, 'put', userAPI.updateUser)
-Mock.mock(/\/user/, 'delete', userAPI.deleteUser)
+// Mock.mock(/\/user/, 'get', userAPI.getList)
+// Mock.mock(/\/user/, 'post', userAPI.createUser)
+// Mock.mock(/\/user/, 'put', userAPI.updateUser)
+// Mock.mock(/\/user/, 'delete', userAPI.deleteUser)
 // 角色相关
 Mock.mock(/\/role/, 'get', roleAPI.getList)
 Mock.mock(/\/role/, 'post', roleAPI.createRole)

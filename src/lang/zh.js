@@ -111,6 +111,9 @@ export default {
     username: '用户名',
     name: '姓名',
     mobile: '手机号',
+    password: '密码',
+    confirmPassword: '确认密码',
+    description: '简介',
     status: {
       ok: '正常',
       lock: '冻结',

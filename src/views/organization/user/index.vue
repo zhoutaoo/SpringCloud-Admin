@@ -52,11 +52,11 @@
         </template>
       </el-table-column>
 
-      <el-table-column class-name="status-col" :label="$t('table.status')" width="80">
-        <template slot-scope="scope">
-          <el-tag :type="scope.row.status | statusFilter">{{$t('user.status.'+scope.row.status)}}</el-tag>
-        </template>
-      </el-table-column>
+      <!--<el-table-column class-name="status-col" :label="$t('table.status')" width="80">-->
+        <!--<template slot-scope="scope">-->
+          <!--<el-tag :type="scope.row.status | statusFilter">{{$t('user.status.'+scope.row.status)}}</el-tag>-->
+        <!--</template>-->
+      <!--</el-table-column>-->
 
       <el-table-column width="160px" align="center" :label="$t('table.updatedTime')">
         <template slot-scope="scope">
@@ -97,23 +97,36 @@
     <!--翻页工具条-->
     <div class="pagination-container">
       <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange"
-                     :current-page="listQuery.page"
-                     :page-sizes="[10,20,30, 50]" :page-size="listQuery.limit"
+                     :current-page="listQuery.current"
+                     :page-sizes="[10,20,30, 50]" :page-size="listQuery.size"
                      layout="total, sizes, prev, pager, next, jumper" :total="total">
       </el-pagination>
     </div>
 
     <!--添加或编辑对话框-->
     <el-dialog :title="$t('table.' + dialogStatus)" :visible.sync="dialogFormVisible">
-      <el-form :rules="rules" ref="dataForm" :model="temp" label-position="left" label-width="70px" style='width: 80%; margin-left:30px;'>
+      <el-form :rules="rules" ref="dataForm" :model="temp" label-position="left" label-width="90px" style='width: 80%; margin-left:30px;'>
+        <el-form-item :label="$t('user.name')" prop="name">
+          <el-input v-model="temp.name" placeholder="Please input a name"></el-input>
+        </el-form-item>
         <el-form-item :label="$t('user.username')" prop="username">
           <el-input v-model="temp.username" placeholder="Please input a username"></el-input>
         </el-form-item>
         <el-form-item :label="$t('user.mobile')" prop="mobile">
           <el-input v-model="temp.mobile" placeholder="Please input mobile number"></el-input>
         </el-form-item>
-        <el-form-item :label="$t('user.name')" prop="name">
-          <el-input v-model="temp.name" placeholder="Please input a name"></el-input>
+        <el-form-item :label="$t('user.password')" prop="password">
+          <el-input v-model="temp.password" placeholder="Please input password"></el-input>
+        </el-form-item>
+        <el-form-item :label="$t('user.confirmPassword')" prop="confirmPassword">
+          <el-input v-model="temp.confirmPassword" placeholder="Please input confirmPassword"></el-input>
+        </el-form-item>
+        <el-form-item :label="$t('user.description')" prop="description">
+          <el-input :rows="3"
+                    type="textarea"
+                    v-model="temp.description"
+                    placeholder="Please input a description">
+          </el-input>
         </el-form-item>
       </el-form>
       <!--对话框动作按钮-->
@@ -128,7 +141,7 @@
 
 <script>
   import { getList, createUser, updateUser, deleteUser } from '@/api/organization/user'
-  import waves from '@/directive/waves' // 水波纹指令
+  import waves from '@/directive/waves'
 
   export default {
     name: 'userManagement',
@@ -142,8 +155,8 @@
         listLoading: true,
         listQuery: {
           status: 'ok',
-          page: 1,
-          limit: 10
+          current: 1,
+          size: 10
         },
         userStatus: ['lock', 'deleted', 'ok'],
         dialogStatus: 'create',
@@ -151,11 +164,16 @@
         rules: {
           username: [{ required: true, message: 'username is required', trigger: 'blur' }],
           name: [{ required: false, message: 'name is required', trigger: 'blur' }],
-          mobile: [{ required: true, message: 'mobile is required', trigger: 'blur' }]
+          mobile: [{ required: true, message: 'mobile is required', trigger: 'blur' }],
+          password: [{ required: true, message: 'password is required', trigger: 'blur' }],
+          confirmPassword: [{ required: true, message: 'confirmPassword is required', trigger: 'blur' }]
         },
         temp: {
           username: '',
           name: '',
+          confirmPassword: '',
+          password: '',
+          description: '',
           mobile: ''
         },
         downloadLoading: false
@@ -178,21 +196,21 @@
       getList() {
         this.listLoading = true
         getList(this.listQuery).then(response => {
-          this.list = response.data.items
-          this.total = response.data.total
+          this.list = response.data.data.records
+          this.total = response.data.data.total
           this.listLoading = false
         })
       },
       handleFilter() {
-        this.listQuery.page = 1
+        this.listQuery.current = 1
         this.getList()
       },
       handleSizeChange(val) {
-        this.listQuery.limit = val
+        this.listQuery.size = val
         this.getList()
       },
       handleCurrentChange(val) {
-        this.listQuery.page = val
+        this.listQuery.current = val
         this.getList()
       },
 

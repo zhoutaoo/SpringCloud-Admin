@@ -10,7 +10,6 @@ export function loginByUsername(username, password) {
   return request({
     url: '/authorization-server/oauth/token',
     headers: {
-      'Authorization': 'Basic dGVzdF9jbGllbnQ6dGVzdF9zZWNyZXQ=',
       'Content-Type': 'application/x-www-form-urlencoded'
     },
     method: 'post',

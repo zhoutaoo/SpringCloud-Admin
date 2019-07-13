@@ -1,16 +1,16 @@
 import request from '@/utils/request'
 
-export function getList(query) {
+export function getList(data) {
   return request({
-    url: '/user',
-    method: 'get',
-    params: query
+    url: '/organization/user/conditions',
+    method: 'post',
+    data
   })
 }
 
 export function createUser(data) {
   return request({
-    url: '/user',
+    url: '/organization/user',
     method: 'post',
     data
   })
@@ -18,7 +18,7 @@ export function createUser(data) {
 
 export function updateUser(data) {
   return request({
-    url: '/user/' + data.id,
+    url: '/organization/user/' + data.id,
     method: 'put',
     data
   })
@@ -26,7 +26,7 @@ export function updateUser(data) {
 
 export function deleteUser(id) {
   return request({
-    url: '/user/' + id,
+    url: '/organization/user/' + id,
     method: 'delete'
   })
 }
