@@ -1,5 +1,5 @@
 const TARGET_URL = 'http://localhost:8443';
-
+// 该配置文件公开发环境使用，生产或测试可以使用nginx或其它web服务器作代理解决跨域问题
 module.exports = {
   '/authorization-server': {
     target: TARGET_URL, // 接口的域名
