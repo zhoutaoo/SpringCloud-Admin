@@ -155,6 +155,7 @@ export default {
     publish: 'Publish',
     draft: 'Draft',
     delete: 'Delete',
+    resetPass: 'Reset Password',
     cancel: 'Cancel',
     confirm: 'Confirm'
   },
