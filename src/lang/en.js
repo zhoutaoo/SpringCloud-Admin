@@ -108,6 +108,7 @@ export default {
     export: 'Export'
   },
   user: {
+    id: 'User Id',
     username: 'Username',
     name: 'Name',
     mobile: 'Mobile',

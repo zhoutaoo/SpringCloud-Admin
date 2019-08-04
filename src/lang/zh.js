@@ -108,6 +108,7 @@ export default {
     export: '导出'
   },
   user: {
+    id: '用户编号',
     username: '用户名',
     name: '姓名',
     mobile: '手机号',
