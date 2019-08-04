@@ -23,19 +23,20 @@
     </div>
 
     <el-table :data="list" v-loading.body="listLoading" border fit highlight-current-row style="width: 100%">
-      <el-table-column align="center" label="ID" width="60">
+      <el-table-column type="index" width="50" align="center" label="ID"/>
+      <el-table-column width="120px" align="center" :label="$t('role.id')">
         <template slot-scope="scope">
           <span>{{scope.row.id}}</span>
         </template>
       </el-table-column>
 
-      <el-table-column width="80" align="center" :label="$t('role.code')">
+      <el-table-column width="120px" align="center" :label="$t('role.code')">
         <template slot-scope="scope">
           <span>{{scope.row.code}}</span>
         </template>
       </el-table-column>
 
-      <el-table-column width="100" align="center" :label="$t('role.name')">
+      <el-table-column width="150px" align="center" :label="$t('role.name')">
         <template slot-scope="scope">
           <span>{{scope.row.name}}</span>
         </template>
@@ -97,7 +98,8 @@
 
     <!--添加或编辑对话框-->
     <el-dialog :title="$t('table.' + dialogStatus)" :visible.sync="dialogFormVisible">
-      <el-form :rules="rules" ref="dataForm" :model="temp" label-position="left" label-width="70px"
+      <el-form :rules="rules" ref="dataForm" :model="temp" label-position="right"
+               label-width="120px" status-icon
                style='width: 80%; margin-left:30px;'>
         <el-form-item :label="$t('role.code')" prop="code">
           <el-input v-model="temp.code" placeholder="请输入角色代码"></el-input>
