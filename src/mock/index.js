@@ -35,8 +35,8 @@ Mock.mock(/\/transaction\/list/, 'get', transactionAPI.getList)
 // Mock.mock(/\/user/, 'put', userAPI.updateUser)
 // Mock.mock(/\/user/, 'delete', userAPI.deleteUser)
 // 角色相关
-Mock.mock(/\/role/, 'get', roleAPI.getList)
-Mock.mock(/\/role/, 'post', roleAPI.createRole)
+// Mock.mock(/\/role/, 'get', roleAPI.getList)
+// Mock.mock(/\/role/, 'post', roleAPI.createRole)
 Mock.mock(/\/role/, 'put', roleAPI.updateRole)
 Mock.mock(/\/role/, 'delete', roleAPI.deleteRole)
 // 用户组

@@ -1,16 +1,16 @@
 import request from '@/utils/request'
 
-export function getList(query) {
+export function getList(data) {
   return request({
-    url: '/role',
-    method: 'get',
-    params: query
+    url: '/organization/role/conditions',
+    method: 'post',
+    data
   })
 }
 
 export function createRole(data) {
   return request({
-    url: '/role',
+    url: '/organization/role',
     method: 'post',
     data
   })
@@ -18,7 +18,7 @@ export function createRole(data) {
 
 export function updateRole(data) {
   return request({
-    url: '/role/' + data.id,
+    url: '/organization/role/' + data.id,
     method: 'put',
     data
   })
@@ -26,7 +26,7 @@ export function updateRole(data) {
 
 export function deleteRole(id) {
   return request({
-    url: '/role/' + id,
+    url: '/organization/role/' + id,
     method: 'delete'
   })
 }

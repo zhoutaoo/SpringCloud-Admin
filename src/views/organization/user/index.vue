@@ -198,7 +198,7 @@
         temp: {
           username: '',
           name: '',
-          password: '',
+          password: '******',
           description: '',
           mobile: ''
         },

@@ -8,10 +8,6 @@
       <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item"
                 :placeholder="$t('role.name')" v-model="listQuery.name">
       </el-input>
-      <el-select clearable style="width: 90px" class="filter-item" v-model="listQuery.status"
-                 :placeholder="$t('table.status')">
-        <el-option v-for="item in roleStatus" :key="item" :label="$t('role.status.'+item)" :value="item"></el-option>
-      </el-select>
 
       <el-button class="filter-item" type="primary" v-waves icon="el-icon-search" @click="handleFilter">
         {{$t('table.search')}}
@@ -48,12 +44,6 @@
       <el-table-column align="center" :label="$t('role.description')">
         <template slot-scope="scope">
           <span>{{scope.row.description}}</span>
-        </template>
-      </el-table-column>
-
-      <el-table-column class-name="status-col" :label="$t('table.status')" width="80">
-        <template slot-scope="scope">
-          <el-tag :type="scope.row.status | statusFilter">{{$t('role.status.' + scope.row.status)}}</el-tag>
         </template>
       </el-table-column>
 
@@ -95,9 +85,12 @@
 
     <!--翻页工具条-->
     <div class="pagination-container">
-      <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange"
-                     :current-page="listQuery.page"
-                     :page-sizes="[10,20,30, 50]" :page-size="listQuery.limit"
+      <el-pagination background
+                     @size-change="handleSizeChange"
+                     @current-change="handleCurrentChange"
+                     :current-page="listQuery.current"
+                     :page-sizes="[10, 20, 30, 50]"
+                     :page-size="listQuery.size"
                      layout="total, sizes, prev, pager, next, jumper" :total="total">
       </el-pagination>
     </div>
@@ -107,10 +100,10 @@
       <el-form :rules="rules" ref="dataForm" :model="temp" label-position="left" label-width="70px"
                style='width: 80%; margin-left:30px;'>
         <el-form-item :label="$t('role.code')" prop="code">
-          <el-input v-model="temp.code" placeholder="Please input a code"></el-input>
+          <el-input v-model="temp.code" placeholder="请输入角色代码"></el-input>
         </el-form-item>
         <el-form-item :label="$t('role.name')" prop="name">
-          <el-input v-model="temp.name" placeholder="Please input name"></el-input>
+          <el-input v-model="temp.name" placeholder="请输入角色名"></el-input>
         </el-form-item>
         <el-form-item :label="$t('role.description')" prop="description">
           <el-input v-model="temp.description" type="textarea" :rows="2" placeholder="请输入描述内容"></el-input>
@@ -144,28 +137,14 @@
         listLoading: true,
         listQuery: {
           status: 'ok',
-          page: 1,
-          limit: 10
+          current: 1,
+          size: 10
         },
-        roleStatus: ['deleted', 'ok'],
         dialogStatus: 'create',
         dialogFormVisible: false,
         rules: {
-          code: [{
-            required: true,
-            message: 'code is required',
-            trigger: 'blur'
-          }],
-          name: [{
-            required: true,
-            message: 'name is required',
-            trigger: 'blur'
-          }],
-          description: [{
-            required: false,
-            message: 'description',
-            trigger: 'blur'
-          }]
+          code: [{ required: true, message: '角色代码必填', trigger: 'blur' }],
+          name: [{ required: true, message: '角色名必填', trigger: 'blur' }]
         },
         temp: {
           code: '',
@@ -188,27 +167,39 @@
       this.getList()
     },
     methods: {
+      /**
+       * 查询列表
+       */
       getList() {
         this.listLoading = true
         getList(this.listQuery).then(response => {
-          this.list = response.data.items
-          this.total = response.data.total
+          this.list = response.data.data.records
+          this.total = response.data.data.total
           this.listLoading = false
         })
       },
       handleFilter() {
-        this.listQuery.page = 1
+        this.listQuery.current = 1
         this.getList()
       },
+      /**
+       * 修改每页显示条数
+       */
       handleSizeChange(val) {
-        this.listQuery.limit = val
+        this.listQuery.size = val
         this.getList()
       },
+      /**
+       * 跳转到指定页
+       */
       handleCurrentChange(val) {
-        this.listQuery.page = val
+        this.listQuery.current = val
         this.getList()
       },
 
+      /**
+       * 弹出新增角色对话框
+       */
       handleCreate() {
         this.temp = {}
         this.dialogStatus = 'create'
@@ -217,6 +208,9 @@
           this.$refs['dataForm'].clearValidate()
         })
       },
+      /**
+       * 新增角色
+       */
       createData() {
         this.$refs['dataForm'].validate((valid) => {
           if (valid) {
@@ -242,6 +236,9 @@
           this.$refs['dataForm'].clearValidate()
         })
       },
+      /**
+       * 更新角色
+       */
       updateData() {
         this.$refs['dataForm'].validate((valid) => {
           if (valid) {
@@ -258,6 +255,10 @@
           }
         })
       },
+      /**
+       * 删除角色
+       * @param id
+       */
       deleteRole(id) {
         this.$confirm('此操作将永久删除, 是否继续?', '提示', {
           confirmButtonText: '确定',

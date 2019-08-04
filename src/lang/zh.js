@@ -122,7 +122,7 @@ export default {
     }
   },
   role: {
-    code: '代码',
+    code: '角色代码',
     name: '角色名',
     description: '描述',
     status: {
