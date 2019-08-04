@@ -123,27 +123,27 @@
 
     <!--添加或编辑对话框-->
     <el-dialog :title="$t('table.' + dialogStatus)" :visible.sync="dialogFormVisible">
-      <el-form :rules="rules" ref="dataForm" :model="temp" label-position="left"
-               label-width="120px"
+      <el-form :rules="rules" ref="dataForm" :model="temp" label-position="right"
+               label-width="120px" status-icon
                style='width: 80%; margin-left:60px;'>
         <el-form-item :label="$t('user.name')" prop="name">
-          <el-input v-model="temp.name" placeholder="Please input a name"></el-input>
+          <el-input v-model="temp.name" placeholder="请输入用户姓名"></el-input>
         </el-form-item>
         <el-form-item :label="$t('user.username')" prop="username">
-          <el-input v-model="temp.username" placeholder="Please input a username"></el-input>
+          <el-input v-model="temp.username" placeholder="请输入用户名"></el-input>
         </el-form-item>
         <el-form-item :label="$t('user.mobile')" prop="mobile">
-          <el-input v-model="temp.mobile" placeholder="Please input mobile number"></el-input>
+          <el-input v-model="temp.mobile" placeholder="请输入用户手机号"></el-input>
         </el-form-item>
         <el-form-item :label="$t('user.password')" prop="password">
           <el-input :disabled="dialogStatus=='edit'"
-                    v-model="temp.password" placeholder="Please input password" show-password></el-input>
+                    v-model="temp.password" placeholder="请输入用户密码" show-password></el-input>
         </el-form-item>
         <el-form-item :label="$t('user.description')" prop="description">
           <el-input :rows="3"
                     type="textarea"
                     v-model="temp.description"
-                    placeholder="Please input a description">
+                    placeholder="请输入用户简介">
           </el-input>
         </el-form-item>
       </el-form>
@@ -184,10 +184,15 @@
         dialogFormVisible: false,
         // 表单校验规则
         rules: {
-          username: [{ required: true, message: 'username is required', trigger: 'blur' }],
-          name: [{ required: false, message: 'name is required', trigger: 'blur' }],
-          mobile: [{ required: true, message: 'mobile is required', trigger: 'blur' }],
-          password: [{ required: true, message: 'password is required', trigger: 'blur' }]
+          username: [
+            { required: true, message: '用户名必填', trigger: 'blur' },
+            { min: 3, max: 20, message: '用户名长度在3到20个字符', trigger: 'blur' }
+          ],
+          mobile: [{ required: true, message: '用户手机号不能为空', trigger: 'blur' }],
+          password: [
+            { required: true, message: '用户密码为必填', trigger: 'blur' },
+            { min: 5, max: 20, message: '用户密码长度在5到20个字符', trigger: 'blur' }
+          ]
         },
         // 创建或修改用户临时对象
         temp: {
