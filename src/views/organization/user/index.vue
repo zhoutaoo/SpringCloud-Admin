@@ -139,8 +139,18 @@
           <el-input :disabled="dialogStatus=='edit'"
                     v-model="temp.password" placeholder="请输入用户密码" show-password></el-input>
         </el-form-item>
+        <el-form-item :label="$t('user.roles')" prop="roles">
+          <el-select v-model="temp.roles" multiple placeholder="请选择" @visible-change="queryRole">
+            <el-option v-for="item in roleList"
+              :key="item.code"
+              :label="item.name"
+              :value="item.id">
+            </el-option>
+          </el-select>
+        </el-form-item>
+
         <el-form-item :label="$t('user.description')" prop="description">
-          <el-input :rows="3"
+          <el-input :rows="5"
                     type="textarea"
                     v-model="temp.description"
                     placeholder="请输入用户简介">
@@ -158,7 +168,9 @@
 </template>
 
 <script>
-  import { getList, createUser, updateUser, deleteUser } from '@/api/organization/user'
+  import { queryUser, createUser, updateUser, deleteUser } from '@/api/organization/user'
+  import { queryRole } from '@/api/organization/role'
+
   import waves from '@/directive/waves'
 
   export default {
@@ -180,6 +192,7 @@
         },
         // 用户状态
         userStatus: ['lock', 'deleted', 'ok'],
+        roleList: [],
         dialogStatus: 'create',
         dialogFormVisible: false,
         // 表单校验规则
@@ -199,6 +212,7 @@
           username: '',
           name: '',
           password: '******',
+          roles: [],
           description: '',
           mobile: ''
         },
@@ -218,38 +232,46 @@
     },
     // 页面加载完成后显示列表页
     created() {
-      this.getList()
+      this.queryUser()
     },
     methods: {
       /**
-       * 查询列表
+       * 用户列表
        */
-      getList() {
+      queryUser() {
         this.listLoading = true
-        getList(this.listQuery).then(response => {
+        queryUser(this.listQuery).then(response => {
           this.list = response.data.data.records
           this.total = response.data.data.total
           this.listLoading = false
         })
       },
+      /**
+       * 角色列表
+       */
+      queryRole() {
+        queryRole(this.listQuery).then(response => {
+          this.roleList = response.data.data.records
+        })
+      },
       // 查询过滤器
       handleFilter() {
         this.listQuery.current = 1
-        this.getList()
+        this.queryUser()
       },
       /**
        * 修改每页显示条数
        */
       handleSizeChange(val) {
         this.listQuery.size = val
-        this.getList()
+        this.queryUser()
       },
       /**
        * 跳转到指定页
        */
       handleCurrentChange(val) {
         this.listQuery.current = val
-        this.getList()
+        this.queryUser()
       },
 
       /**
@@ -277,7 +299,7 @@
                 type: 'success',
                 duration: 2000
               })
-              this.getList()
+              this.queryUser()
             })
           }
         })
@@ -307,7 +329,7 @@
                 type: 'success',
                 duration: 2000
               })
-              this.getList()
+              this.queryUser()
             })
           }
         })
@@ -329,7 +351,7 @@
               type: 'success',
               duration: 2000
             })
-            this.getList()
+            this.queryUser()
           })
         })
       },

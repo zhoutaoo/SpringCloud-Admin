@@ -113,7 +113,7 @@ export default {
     name: '姓名',
     mobile: '手机号',
     password: '密码',
-    confirmPassword: '确认密码',
+    roles: '用户角色',
     description: '简介',
     status: {
       ok: '正常',
@@ -122,6 +122,7 @@ export default {
     }
   },
   role: {
+    id: '角色编号',
     code: '角色代码',
     name: '角色名',
     description: '描述',

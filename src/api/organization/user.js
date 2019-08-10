@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 
-export function getList(data) {
+export function queryUser(data) {
   return request({
     url: '/organization/user/conditions',
     method: 'post',

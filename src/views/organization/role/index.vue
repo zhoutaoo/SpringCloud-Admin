@@ -123,7 +123,7 @@
 
 <script>
   import {
-    getList, createRole, updateRole, deleteRole
+    queryRole, createRole, updateRole, deleteRole
   } from '@/api/organization/role'
   import waves from '@/directive/waves' // 水波纹指令
 
@@ -166,15 +166,15 @@
       }
     },
     created() {
-      this.getList()
+      this.queryRole()
     },
     methods: {
       /**
        * 查询列表
        */
-      getList() {
+      queryRole() {
         this.listLoading = true
-        getList(this.listQuery).then(response => {
+        queryRole(this.listQuery).then(response => {
           this.list = response.data.data.records
           this.total = response.data.data.total
           this.listLoading = false
@@ -182,21 +182,21 @@
       },
       handleFilter() {
         this.listQuery.current = 1
-        this.getList()
+        this.queryRole()
       },
       /**
        * 修改每页显示条数
        */
       handleSizeChange(val) {
         this.listQuery.size = val
-        this.getList()
+        this.queryRole()
       },
       /**
        * 跳转到指定页
        */
       handleCurrentChange(val) {
         this.listQuery.current = val
-        this.getList()
+        this.queryRole()
       },
 
       /**
@@ -224,7 +224,7 @@
                 type: 'success',
                 duration: 2000
               })
-              this.getList()
+              this.queryRole()
             })
           }
         })
@@ -252,7 +252,7 @@
                 type: 'success',
                 duration: 2000
               })
-              this.getList()
+              this.queryRole()
             })
           }
         })

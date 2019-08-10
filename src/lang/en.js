@@ -112,6 +112,9 @@ export default {
     username: 'Username',
     name: 'Name',
     mobile: 'Mobile',
+    password: 'Password',
+    roles: 'Roles',
+    description: 'Description',
     status: {
       ok: 'Ok',
       lock: 'Lock',
@@ -119,6 +122,7 @@ export default {
     }
   },
   role: {
+    id: 'Role Id',
     code: 'Code',
     name: 'Role Name',
     description: 'Description',

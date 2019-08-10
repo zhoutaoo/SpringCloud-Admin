@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 
-export function getList(data) {
+export function queryRole(data) {
   return request({
     url: '/organization/role/conditions',
     method: 'post',
