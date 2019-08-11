@@ -136,15 +136,18 @@
           <el-input v-model="temp.mobile" placeholder="请输入用户手机号"></el-input>
         </el-form-item>
         <el-form-item :label="$t('user.password')" prop="password">
-          <el-input :disabled="dialogStatus=='edit'"
-                    v-model="temp.password" placeholder="请输入用户密码" show-password></el-input>
+          <!--:disabled="dialogStatus=='edit'"-->
+          <el-input
+            v-model="temp.password" placeholder="请输入用户密码"></el-input>
         </el-form-item>
         <el-form-item :label="$t('user.roles')" prop="roles">
-          <el-select v-model="temp.roles" multiple placeholder="请选择" @visible-change="queryRole">
+          <el-select v-model="temp.roleIds" multiple clearable
+                     style="width: 100%;" placeholder="请选择"
+                     @visible-change="getRoles">
             <el-option v-for="item in roleList"
-              :key="item.code"
-              :label="item.name"
-              :value="item.id">
+                       :key="item.code"
+                       :label="item.name"
+                       :value="item.id">
             </el-option>
           </el-select>
         </el-form-item>
@@ -169,7 +172,7 @@
 
 <script>
   import { queryUser, createUser, updateUser, deleteUser } from '@/api/organization/user'
-  import { queryRole } from '@/api/organization/role'
+  import { getRoles } from '@/api/organization/role'
 
   import waves from '@/directive/waves'
 
@@ -211,8 +214,8 @@
         temp: {
           username: '',
           name: '',
-          password: '******',
-          roles: [],
+          password: '',
+          roleIds: [],
           description: '',
           mobile: ''
         },
@@ -249,10 +252,12 @@
       /**
        * 角色列表
        */
-      queryRole() {
-        queryRole(this.listQuery).then(response => {
-          this.roleList = response.data.data.records
-        })
+      getRoles(isShow) {
+        if (isShow) {
+          getRoles().then(response => {
+            this.roleList = response.data.data
+          })
+        }
       },
       // 查询过滤器
       handleFilter() {
@@ -278,7 +283,6 @@
        * 弹出创建用户表单
        */
       handleCreate() {
-        this.temp = {}
         this.dialogStatus = 'create'
         this.dialogFormVisible = true
         this.$nextTick(() => {
@@ -299,6 +303,7 @@
                 type: 'success',
                 duration: 2000
               })
+              this.temp.roleIds = []
               this.queryUser()
             })
           }
@@ -329,6 +334,7 @@
                 type: 'success',
                 duration: 2000
               })
+              this.temp.roleIds = []
               this.queryUser()
             })
           }

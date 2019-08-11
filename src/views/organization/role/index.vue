@@ -122,9 +122,7 @@
 </template>
 
 <script>
-  import {
-    queryRole, createRole, updateRole, deleteRole
-  } from '@/api/organization/role'
+  import { queryRole, createRole, updateRole, deleteRole } from '@/api/organization/role'
   import waves from '@/directive/waves' // 水波纹指令
 
   export default {
@@ -274,7 +272,7 @@
               type: 'success',
               duration: 2000
             })
-            this.getList()
+            this.queryRole()
           })
         })
       },

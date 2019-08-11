@@ -4,7 +4,7 @@ import articleAPI from './article'
 import remoteSearchAPI from './remoteSearch'
 import transactionAPI from './transaction'
 // import userAPI from './organiztion/user'
-import roleAPI from './organiztion/role'
+// import roleAPI from './organiztion/role'
 import groupAPI from './organiztion/group'
 
 // Mock.setup({
@@ -37,8 +37,8 @@ Mock.mock(/\/transaction\/list/, 'get', transactionAPI.getList)
 // 角色相关
 // Mock.mock(/\/role/, 'get', roleAPI.getList)
 // Mock.mock(/\/role/, 'post', roleAPI.createRole)
-Mock.mock(/\/role/, 'put', roleAPI.updateRole)
-Mock.mock(/\/role/, 'delete', roleAPI.deleteRole)
+// Mock.mock(/\/role/, 'put', roleAPI.updateRole)
+// Mock.mock(/\/role/, 'delete', roleAPI.deleteRole)
 // 用户组
 Mock.mock(/\/group/, 'get', groupAPI.getGroup)
 Mock.mock(/\/group/, 'post', groupAPI.createRole)
