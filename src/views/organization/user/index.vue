@@ -43,19 +43,19 @@
     <!--列表-->
     <el-table :data="list" v-loading.body="listLoading" border fit highlight-current-row style="width: 100%">
       <el-table-column type="index" width="50" align="center" label="ID"/>
-      <el-table-column width="120px" align="center" :label="$t('user.id')">
+      <el-table-column width="180px" align="center" :label="$t('user.id')">
         <template slot-scope="scope">
           <span>{{scope.row.id}}</span>
         </template>
       </el-table-column>
 
-      <el-table-column width="120px" align="center" :label="$t('user.username')">
+      <el-table-column width="150px" align="center" :label="$t('user.username')">
         <template slot-scope="scope">
           <span>{{scope.row.username}}</span>
         </template>
       </el-table-column>
 
-      <el-table-column width="120px" align="center" :label="$t('user.name')">
+      <el-table-column width="150px" align="center" :label="$t('user.name')">
         <template slot-scope="scope">
           <span>{{scope.row.name}}</span>
         </template>
@@ -99,7 +99,7 @@
 
       <el-table-column align="center" :label="$t('table.action')" width="200">
         <template slot-scope="scope">
-          <el-button type="primary" size="mini" @click="handleUpdate(scope.row)">
+          <el-button type="primary" size="mini" @click="handleUpdate(scope.row.id)">
             {{$t('table.edit')}}
           </el-button>
           <el-button type="danger" size="mini" @click="deleteData(scope.row.id)">
@@ -171,7 +171,7 @@
 </template>
 
 <script>
-  import { queryUser, createUser, updateUser, deleteUser } from '@/api/organization/user'
+  import { queryUser, getUser, createUser, updateUser, deleteUser } from '@/api/organization/user'
   import { getRoles } from '@/api/organization/role'
 
   import waves from '@/directive/waves'
@@ -187,6 +187,7 @@
         list: null,
         total: 0,
         listLoading: true,
+        downloadLoading: false,
         // 查询参数
         listQuery: {
           status: 'ok',
@@ -211,15 +212,7 @@
           ]
         },
         // 创建或修改用户临时对象
-        temp: {
-          username: '',
-          name: '',
-          password: '',
-          roleIds: [],
-          description: '',
-          mobile: ''
-        },
-        downloadLoading: false
+        temp: {}
       }
     },
     filters: {
@@ -236,6 +229,7 @@
     // 页面加载完成后显示列表页
     created() {
       this.queryUser()
+      this.resetForm()
     },
     methods: {
       /**
@@ -278,13 +272,26 @@
         this.listQuery.current = val
         this.queryUser()
       },
-
+      /**
+       * 重置添加表单
+       */
+      resetForm() {
+        this.temp = {
+          username: '',
+          name: '',
+          password: '',
+          roleIds: [],
+          description: '',
+          mobile: ''
+        }
+      },
       /**
        * 弹出创建用户表单
        */
       handleCreate() {
         this.dialogStatus = 'create'
         this.dialogFormVisible = true
+        this.resetForm()
         this.$nextTick(() => {
           this.$refs['dataForm'].clearValidate()
         })
@@ -312,10 +319,14 @@
       /**
        * 弹出修改用户表单
        */
-      handleUpdate(row) {
-        this.temp = Object.assign({}, row) // copy obj
-        this.dialogStatus = 'edit'
-        this.dialogFormVisible = true
+      handleUpdate(id) {
+        this.listLoading = true
+        getUser(id).then(response => {
+          this.temp = response.data.data
+          this.listLoading = false
+          this.dialogStatus = 'edit'
+          this.dialogFormVisible = true
+        })
         this.$nextTick(() => {
           this.$refs['dataForm'].clearValidate()
         })

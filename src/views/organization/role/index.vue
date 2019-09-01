@@ -24,7 +24,7 @@
 
     <el-table :data="list" v-loading.body="listLoading" border fit highlight-current-row style="width: 100%">
       <el-table-column type="index" width="50" align="center" label="ID"/>
-      <el-table-column width="120px" align="center" :label="$t('role.id')">
+      <el-table-column width="180px" align="center" :label="$t('role.id')">
         <template slot-scope="scope">
           <span>{{scope.row.id}}</span>
         </template>

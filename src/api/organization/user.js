@@ -8,6 +8,13 @@ export function queryUser(data) {
   })
 }
 
+export function getUser(id) {
+  return request({
+    url: '/organization/user/' + id,
+    method: 'get'
+  })
+}
+
 export function createUser(data) {
   return request({
     url: '/organization/user',
