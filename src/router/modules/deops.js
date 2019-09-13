@@ -13,34 +13,47 @@ const devopsRouter = {
   },
   children: [
     {
-      path: 'http://localhost:8848/nacos/#/serviceManagement?dataId=&group=&appName=&namespace=',
-      name: 'Nacos',
+      path: '/devops/nacos/register',
+      name: 'Register',
+      component: () => import('@/views/devops/nacos'),
       meta: {
         title: '注册中心',
         icon: 'link'
       }
     },
     {
-      path: 'http://localhost:8848/nacos/#/configurationManagement?dataId=&group=&appName=&namespace=',
-      name: 'Nacos',
+      path: '/devops/nacos/config',
+      name: 'Config',
+      component: () => import('@/views/devops/nacos'),
       meta: {
         title: '配置中心',
         icon: 'link'
       }
     },
     {
-      path: 'http://localhost:8021',
+      path: '/devops/sentinel',
       name: 'SentinelDashBoard',
+      component: () => import('@/views/devops/sentinel'),
       meta: {
         title: '服务运维',
         icon: 'link'
       }
     },
     {
-      path: 'http://localhost:8022',
-      name: 'SpringBootAdmin',
+      path: '/devops/moss',
+      name: 'Moss',
+      component: () => import('@/views/devops/moss'),
       meta: {
         title: '服务管理',
+        icon: 'link'
+      }
+    },
+    {
+      path: '/devops/swagger',
+      name: 'Swagger',
+      component: () => import('@/views/devops/swagger'),
+      meta: {
+        title: '聚合文档',
         icon: 'link'
       }
     }
