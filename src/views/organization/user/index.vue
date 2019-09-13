@@ -6,104 +6,104 @@
       <el-input @keyup.enter.native="handleFilter"
                 style="width: 200px;"
                 class="filter-item"
-                :placeholder="$t('user.username')"
+                placeholder="用户名"
                 v-model="listQuery.username">
       </el-input>
       <el-input @keyup.enter.native="handleFilter"
                 style="width: 200px;"
                 class="filter-item"
-                :placeholder="$t('user.mobile')"
+                placeholder="手机号"
                 v-model="listQuery.mobile">
       </el-input>
       <el-select clearable
                  style="width: 90px"
                  class="filter-item"
                  v-model="listQuery.status"
-                 :placeholder="$t('table.status')">
+                 placeholder="用户状态">
         <el-option v-for="item in userStatus"
                    :key="item"
-                   :label="$t('user.status.'+item)"
+                   :label="item"
                    :value="item">
         </el-option>
       </el-select>
 
       <!--动作按钮-->
       <el-button class="filter-item" type="primary" v-waves icon="el-icon-search" @click="handleFilter">
-        {{$t('table.search')}}
+        搜索
       </el-button>
       <el-button class="filter-item" type="primary" v-waves icon="el-icon-edit" @click="handleCreate">
-        {{$t('search.add')}}
+        新增
       </el-button>
       <el-button class="filter-item" type="primary" v-waves icon="el-icon-download" :loading="downloadLoading"
                  @click="handleDownload">
-        {{$t('search.export')}}
+        导出
       </el-button>
     </div>
 
     <!--列表-->
     <el-table :data="list" v-loading.body="listLoading" border fit highlight-current-row style="width: 100%">
       <el-table-column type="index" width="50" align="center" label="ID"/>
-      <el-table-column width="180px" align="center" :label="$t('user.id')">
+      <el-table-column width="180px" align="center" label="用户号">
         <template slot-scope="scope">
           <span>{{scope.row.id}}</span>
         </template>
       </el-table-column>
 
-      <el-table-column width="150px" align="center" :label="$t('user.username')">
+      <el-table-column width="150px" align="center" label="用户名">
         <template slot-scope="scope">
           <span>{{scope.row.username}}</span>
         </template>
       </el-table-column>
 
-      <el-table-column width="150px" align="center" :label="$t('user.name')">
+      <el-table-column width="150px" align="center" label="用户姓名">
         <template slot-scope="scope">
           <span>{{scope.row.name}}</span>
         </template>
       </el-table-column>
 
-      <el-table-column width="120px" align="center" :label="$t('user.mobile')">
+      <el-table-column width="120px" align="center" label="手机号">
         <template slot-scope="scope">
           <span>{{scope.row.mobile}}</span>
         </template>
       </el-table-column>
 
-      <!--<el-table-column class-name="status-col" :label="$t('table.status')" width="80">-->
+      <!--<el-table-column class-name="status-col" label="$t('table.status')" width="80">-->
       <!--<template slot-scope="scope">-->
       <!--<el-tag :type="scope.row.status | statusFilter">{{$t('user.status.'+scope.row.status)}}</el-tag>-->
       <!--</template>-->
       <!--</el-table-column>-->
 
-      <el-table-column width="160px" align="center" :label="$t('table.updatedTime')">
+      <el-table-column width="160px" align="center" label="修改时间">
         <template slot-scope="scope">
           <span>{{scope.row.updatedTime | parseTime('{y}-{m}-{d} {h}:{i}:{s}')}}</span>
         </template>
       </el-table-column>
 
-      <el-table-column width="110px" align="center" :label="$t('table.updatedBy')">
+      <el-table-column width="110px" align="center" label="修改人">
         <template slot-scope="scope">
           <span>{{scope.row.updatedBy}}</span>
         </template>
       </el-table-column>
 
-      <el-table-column width="160px" align="center" :label="$t('table.createdTime')">
+      <el-table-column width="160px" align="center" label="创建时间">
         <template slot-scope="scope">
           <span>{{scope.row.createdTime | parseTime('{y}-{m}-{d} {h}:{i}:{s}')}}</span>
         </template>
       </el-table-column>
 
-      <el-table-column width="110px" align="center" :label="$t('table.createdBy')">
+      <el-table-column width="110px" align="center" label="创建人">
         <template slot-scope="scope">
           <span>{{scope.row.createdBy}}</span>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" :label="$t('table.action')" width="200">
+      <el-table-column align="center" label="操作" width="200">
         <template slot-scope="scope">
           <el-button type="primary" size="mini" @click="handleUpdate(scope.row.id)">
-            {{$t('table.edit')}}
+            修改
           </el-button>
           <el-button type="danger" size="mini" @click="deleteData(scope.row.id)">
-            {{$t('table.delete')}}
+            删除
           </el-button>
         </template>
       </el-table-column>
@@ -122,25 +122,25 @@
     </div>
 
     <!--添加或编辑对话框-->
-    <el-dialog :title="$t('table.' + dialogStatus)" :visible.sync="dialogFormVisible">
+    <el-dialog title="新增/修改" :visible.sync="dialogFormVisible">
       <el-form :rules="rules" ref="dataForm" :model="temp" label-position="right"
                label-width="120px" status-icon
                style='width: 80%; margin-left:60px;'>
-        <el-form-item :label="$t('user.name')" prop="name">
+        <el-form-item label="用户姓名" prop="name">
           <el-input v-model="temp.name" placeholder="请输入用户姓名"></el-input>
         </el-form-item>
-        <el-form-item :label="$t('user.username')" prop="username">
+        <el-form-item label="用户名" prop="username">
           <el-input v-model="temp.username" placeholder="请输入用户名"></el-input>
         </el-form-item>
-        <el-form-item :label="$t('user.mobile')" prop="mobile">
+        <el-form-item label="手机号" prop="mobile">
           <el-input v-model="temp.mobile" placeholder="请输入用户手机号"></el-input>
         </el-form-item>
-        <el-form-item :label="$t('user.password')" prop="password">
+        <el-form-item label="密码" prop="password">
           <!--:disabled="dialogStatus=='edit'"-->
           <el-input
             v-model="temp.password" placeholder="请输入用户密码"></el-input>
         </el-form-item>
-        <el-form-item :label="$t('user.roles')" prop="roles">
+        <el-form-item label="角色" prop="roles">
           <el-select v-model="temp.roleIds" multiple clearable
                      style="width: 100%;" placeholder="请选择"
                      @visible-change="getRoles">
@@ -152,7 +152,7 @@
           </el-select>
         </el-form-item>
 
-        <el-form-item :label="$t('user.description')" prop="description">
+        <el-form-item label="用户详情" prop="description">
           <el-input :rows="5"
                     type="textarea"
                     v-model="temp.description"
@@ -162,9 +162,9 @@
       </el-form>
       <!--对话框动作按钮-->
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">{{$t('table.cancel')}}</el-button>
-        <el-button v-if="dialogStatus=='create'" type="primary" @click="createData">{{$t('table.confirm')}}</el-button>
-        <el-button v-if="dialogStatus=='edit'" type="primary" @click="updateData">{{$t('table.confirm')}}</el-button>
+        <el-button @click="dialogFormVisible = false">取消</el-button>
+        <el-button v-if="dialogStatus=='create'" type="primary" @click="createData">创建</el-button>
+        <el-button v-if="dialogStatus=='edit'" type="primary" @click="updateData">修改</el-button>
       </div>
     </el-dialog>
   </div>
@@ -238,8 +238,8 @@
       queryUser() {
         this.listLoading = true
         queryUser(this.listQuery).then(response => {
-          this.list = response.data.data.records
-          this.total = response.data.data.total
+          this.list = response.data.records
+          this.total = response.data.total
           this.listLoading = false
         })
       },
@@ -249,7 +249,7 @@
       getRoles(isShow) {
         if (isShow) {
           getRoles().then(response => {
-            this.roleList = response.data.data
+            this.roleList = response.data
           })
         }
       },
@@ -322,7 +322,7 @@
       handleUpdate(id) {
         this.listLoading = true
         getUser(id).then(response => {
-          this.temp = response.data.data
+          this.temp = response.data
           this.listLoading = false
           this.dialogStatus = 'edit'
           this.dialogFormVisible = true

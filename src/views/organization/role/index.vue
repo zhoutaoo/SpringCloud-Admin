@@ -3,82 +3,82 @@
 
     <div class="filter-container">
       <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item"
-                :placeholder="$t('role.code')" v-model="listQuery.code">
+                placeholder="角色代码" v-model="listQuery.code">
       </el-input>
       <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item"
-                :placeholder="$t('role.name')" v-model="listQuery.name">
+                placeholder="角色名" v-model="listQuery.name">
       </el-input>
 
       <el-button class="filter-item" type="primary" v-waves icon="el-icon-search" @click="handleFilter">
-        {{$t('table.search')}}
+        搜索
       </el-button>
       <el-button class="filter-item" style="margin-left: 10px;" @click="handleCreate" type="primary"
                  icon="el-icon-edit">
-        {{$t('search.add')}}
+        新增
       </el-button>
       <el-button class="filter-item" type="primary" :loading="downloadLoading" v-waves icon="el-icon-download"
                  @click="handleDownload">
-        {{$t('search.export')}}
+        导出
       </el-button>
     </div>
 
     <el-table :data="list" v-loading.body="listLoading" border fit highlight-current-row style="width: 100%">
       <el-table-column type="index" width="50" align="center" label="ID"/>
-      <el-table-column width="180px" align="center" :label="$t('role.id')">
+      <el-table-column width="180px" align="center" label="角色号">
         <template slot-scope="scope">
           <span>{{scope.row.id}}</span>
         </template>
       </el-table-column>
 
-      <el-table-column width="120px" align="center" :label="$t('role.code')">
+      <el-table-column width="120px" align="center" label="角色代码">
         <template slot-scope="scope">
           <span>{{scope.row.code}}</span>
         </template>
       </el-table-column>
 
-      <el-table-column width="150px" align="center" :label="$t('role.name')">
+      <el-table-column width="150px" align="center" label="角色名">
         <template slot-scope="scope">
           <span>{{scope.row.name}}</span>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" :label="$t('role.description')">
+      <el-table-column align="center" label="角色描述">
         <template slot-scope="scope">
           <span>{{scope.row.description}}</span>
         </template>
       </el-table-column>
 
-      <el-table-column width="160px" align="center" :label="$t('table.updatedTime')">
+      <el-table-column width="160px" align="center" label="修改时间">
         <template slot-scope="scope">
           <span>{{scope.row.updatedTime | parseTime('{y}-{m}-{d} {h}:{i}:{s}')}}</span>
         </template>
       </el-table-column>
 
-      <el-table-column width="90" align="center" :label="$t('table.updatedBy')">
+      <el-table-column width="90" align="center" label="修改人">
         <template slot-scope="scope">
           <span>{{scope.row.updatedBy}}</span>
         </template>
       </el-table-column>
 
-      <el-table-column width="160px" align="center" :label="$t('table.createdTime')">
+      <el-table-column width="160px" align="center" label="创建时间">
         <template slot-scope="scope">
           <span>{{scope.row.createdTime | parseTime('{y}-{m}-{d} {h}:{i}:{s}')}}</span>
         </template>
       </el-table-column>
 
-      <el-table-column width="90" align="center" :label="$t('table.createdBy')">
+      <el-table-column width="90" align="center" label="创建人">
         <template slot-scope="scope">
           <span>{{scope.row.createdBy}}</span>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" :label="$t('table.action')" width="150">
+      <el-table-column align="center" label="操作" width="150">
         <template slot-scope="scope">
           <el-button type="primary" size="mini" @click="handleUpdate(scope.row)">
-            {{$t('table.edit')}}
+            修改
           </el-button>
           <el-button type="danger" size="mini" @click="deleteRole(scope.row.id)">
-            {{$t('table.delete')}}
+            删除
           </el-button>
         </template>
       </el-table-column>
@@ -97,25 +97,25 @@
     </div>
 
     <!--添加或编辑对话框-->
-    <el-dialog :title="$t('table.' + dialogStatus)" :visible.sync="dialogFormVisible">
+    <el-dialog title="新增/修改" :visible.sync="dialogFormVisible">
       <el-form :rules="rules" ref="dataForm" :model="temp" label-position="right"
                label-width="120px" status-icon
                style='width: 80%; margin-left:30px;'>
-        <el-form-item :label="$t('role.code')" prop="code">
+        <el-form-item label="角色代码" prop="code">
           <el-input v-model="temp.code" placeholder="请输入角色代码"></el-input>
         </el-form-item>
-        <el-form-item :label="$t('role.name')" prop="name">
+        <el-form-item label="角色名" prop="name">
           <el-input v-model="temp.name" placeholder="请输入角色名"></el-input>
         </el-form-item>
-        <el-form-item :label="$t('role.description')" prop="description">
+        <el-form-item label="角色描述" prop="description">
           <el-input v-model="temp.description" type="textarea" :rows="2" placeholder="请输入描述内容"></el-input>
         </el-form-item>
       </el-form>
       <!--对话框动作按钮-->
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">{{$t('table.cancel')}}</el-button>
-        <el-button v-if="dialogStatus=='create'" type="primary" @click="createData">{{$t('table.confirm')}}</el-button>
-        <el-button v-else type="primary" @click="updateData">{{$t('table.confirm')}}</el-button>
+        <el-button @click="dialogFormVisible = false">取消</el-button>
+        <el-button v-if="dialogStatus=='create'" type="primary" @click="createData">创建</el-button>
+        <el-button v-else type="primary" @click="updateData">修改</el-button>
       </div>
     </el-dialog>
   </div>
@@ -173,8 +173,8 @@
       queryRole() {
         this.listLoading = true
         queryRole(this.listQuery).then(response => {
-          this.list = response.data.data.records
-          this.total = response.data.data.total
+          this.list = response.data.records
+          this.total = response.data.total
           this.listLoading = false
         })
       },

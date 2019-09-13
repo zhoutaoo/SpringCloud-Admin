@@ -1,0 +1,19 @@
+version: '3'
+services:
+  nginx:
+    image: nginx:latest
+    container_name: sc-nginx
+    restart: always
+    volumes:
+      - ./nginx/logs:/var/log/nginx
+      - ./nginx/conf:/etc/nginx/conf.d
+      - ./dist:/usr/share/nginx/html/springcloud-admin
+    networks:
+      - sc-net
+    ports:
+      - 8080:9090
+
+networks:
+  sc-net:
+    external:
+      name: docker-compose_sc-net

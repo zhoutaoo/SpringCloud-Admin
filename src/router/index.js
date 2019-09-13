@@ -4,176 +4,147 @@ import Router from 'vue-router'
 Vue.use(Router)
 
 /* Layout */
-import Layout from '@/views/layout/Layout'
+import Layout from '@/layout'
 
-/** note: submenu only apppear when children.length>=1
- *   detail see  https://panjiachen.github.io/vue-element-admin-site/guide/essentials/router-and-nav.html
- **/
+/* Router Modules */
+import organizationRouter from './modules/organization'
+import devopsRouter from './modules/deops'
 
 /**
- * hidden: true                   if `hidden:true` will not show in the sidebar(default is false)
- * alwaysShow: true               if set true, will always show the root menu, whatever its child routes length
- *                                if not set alwaysShow, only more than one route under the children
+ * Note: sub-menu only appear when route children.length >= 1
+ * Detail see: https://panjiachen.github.io/vue-element-admin-site/guide/essentials/router-and-nav.html
+ *
+ * hidden: true                   if set true, item will not show in the sidebar(default is false)
+ * alwaysShow: true               if set true, will always show the root menu
+ *                                if not set alwaysShow, when item has more than one children route,
  *                                it will becomes nested mode, otherwise not show the root menu
- * redirect: noredirect           if `redirect:noredirect` will no redirct in the breadcrumb
+ * redirect: noRedirect           if set noRedirect will no redirect in the breadcrumb
  * name:'router-name'             the name is used by <keep-alive> (must set!!!)
  * meta : {
-    roles: ['admin','editor']     will control the page roles (you can set multiple roles)
-    title: 'title'               the name show in submenu and breadcrumb (recommend set)
-    icon: 'svg-name'             the icon show in the sidebar,
-    noCache: true                if true ,the page will no be cached(default is false)
+    roles: ['admin','editor']    control the page roles (you can set multiple roles)
+    title: 'title'               the name show in sidebar and breadcrumb (recommend set)
+    icon: 'svg-name'             the icon show in the sidebar
+    noCache: true                if set true, the page will no be cached(default is false)
+    affix: true                  if set true, the tag will affix in the tags-view
+    breadcrumb: false            if set false, the item will hidden in breadcrumb(default is true)
+    activeMenu: '/example/list'  if set path, the sidebar will highlight the path you set
   }
- **/
-export const constantRouterMap = [
-  {
-    path: '/login', component: () => import('@/views/login/index'), hidden: true
-  },
-  {
-    path: '/authredirect', component: () => import('@/views/login/authredirect'), hidden: true
-  },
-  {
-    path: '/404', component: () => import('@/views/errorPage/404'), hidden: true
-  },
-  {
-    path: '/401', component: () => import('@/views/errorPage/401'), hidden: true
-  },
-  {
-    path: '',
-    component: Layout,
-    redirect: 'dashboard',
-    children: [{
-      path: 'dashboard',
-      component: () => import('@/views/dashboard/index'),
-      name: 'dashboard',
-      meta: {
-        title: 'dashboard', icon: 'dashboard', noCache: true
-      }
-    }]
-  }
-]
+ */
 
-export default new Router({
-  // mode: 'history', // require service support
-  scrollBehavior: () => ({
-    y: 0
-  }),
-  routes: constantRouterMap
-})
-
-export const asyncRouterMap = [
+/**
+ * constantRoutes
+ * a base page that does not have permission requirements
+ * all roles can be accessed
+ */
+export const constantRoutes = [
   {
-    path: '/organization',
+    path: '/redirect',
     component: Layout,
-    redirect: '/organization/user',
-    name: 'organization',
-    meta: {
-      title: 'organization',
-      icon: 'peoples',
-      roles: ['admin']
-    },
+    hidden: true,
     children: [
       {
-        path: 'user',
-        name: 'user',
-        component: () => import('@/views/organization/user/index'),
-        meta: {
-          title: 'user',
-          icon: 'user'
-        }
-      },
-      {
-        path: 'role',
-        name: 'role',
-        component: () => import('@/views/organization/role/index'),
-        meta: {
-          title: 'role',
-          icon: 'role'
-        }
-      },
-      {
-        path: 'group',
-        name: 'group',
-        component: () => import('@/views/organization/group/index'),
-        meta: {
-          title: 'group',
-          icon: 'user'
-        }
-      }]
-  },
-
-  {
-    path: '/permission',
-    component: Layout,
-    redirect: '/permission/index',
-    alwaysShow: true, // will always show the root menu
-    meta: {
-      title: 'permission',
-      icon: 'lock',
-      roles: ['admin', 'editor'] // you can set roles in root nav
-    },
-    children: [{
-      path: 'page',
-      component: () => import('@/views/permission/page'),
-      name: 'pagePermission',
-      meta: {
-        title: 'pagePermission',
-        roles: ['admin'] // or you can only set roles in sub nav
-      }
-    }, {
-      path: 'directive',
-      component: () => import('@/views/permission/directive'),
-      name: 'directivePermission',
-      meta: {
-        title: 'directivePermission'
-        // if do not set roles, means: this page does not require permission
-      }
-    }]
-  },
-
-  {
-    path: '/error',
-    component: Layout,
-    redirect: 'noredirect',
-    name: 'errorPages',
-    meta: {
-      title: 'errorPages',
-      icon: '404'
-    },
-    children: [
-      {
-        path: '401',
-        component: () => import('@/views/errorPage/401'),
-        name: 'page401',
-        meta: {
-          title: 'page401', noCache: true
-        }
-      },
-      {
-        path: '404',
-        component: () => import('@/views/errorPage/404'),
-        name: 'page404',
-        meta: {
-          title: 'page404', noCache: true
-        }
+        path: '/redirect/:path*',
+        component: () => import('@/views/redirect/index')
       }
     ]
   },
-
   {
-    path: '/error-log',
-    component: Layout,
-    redirect: 'noredirect',
-    children: [{
-      path: 'log',
-      component: () => import('@/views/errorLog/index'),
-      name: 'errorLog',
-      meta: {
-        title: 'errorLog', icon: 'bug'
-      }
-    }]
+    path: '/login',
+    component: () => import('@/views/login/index'),
+    hidden: true
   },
-
   {
-    path: '*', redirect: '/404', hidden: true
+    path: '/auth-redirect',
+    component: () => import('@/views/login/auth-redirect'),
+    hidden: true
+  },
+  {
+    path: '/404',
+    component: () => import('@/views/error-page/404'),
+    hidden: true
+  },
+  {
+    path: '/401',
+    component: () => import('@/views/error-page/401'),
+    hidden: true
+  },
+  {
+    path: '/',
+    component: Layout,
+    redirect: '/dashboard',
+    children: [
+      {
+        path: 'dashboard',
+        component: () => import('@/views/dashboard/index'),
+        name: 'Dashboard',
+        meta: { title: '首页', icon: 'dashboard', affix: true }
+      }
+    ]
+  },
+  {
+    path: '/profile',
+    component: Layout,
+    redirect: '/profile/index',
+    hidden: true,
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/profile/index'),
+        name: 'Profile',
+        meta: { title: 'Profile', icon: 'user', noCache: true }
+      }
+    ]
   }
 ]
+
+/**
+ * asyncRoutes
+ * the routes that need to be dynamically loaded based on user roles
+ */
+export const asyncRoutes = [
+  /** when your routing map is too long, you can split it into small modules **/
+  organizationRouter,
+  devopsRouter,
+  // nestedRouter,
+  // tableRouter,
+  {
+    path: '/github',
+    component: Layout,
+    children: [
+      {
+        path: 'https://github.com/zhoutaoo/springcloud.git',
+        meta: { title: 'Github', icon: 'link' }
+      }
+    ]
+  },
+  {
+    path: '/icon',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/icons/index'),
+        name: 'Icons',
+        meta: { title: 'Icons', icon: 'icon', noCache: true }
+      }
+    ]
+  },
+  // 404 page must be placed at the end !!!
+  { path: '*', redirect: '/404', hidden: true }
+]
+
+const createRouter = () => new Router({
+  // mode: 'history', // require service support
+  scrollBehavior: () => ({ y: 0 }),
+  routes: constantRoutes
+})
+
+const router = createRouter()
+
+// Detail see: https://github.com/vuejs/vue-router/issues/1234#issuecomment-357941465
+export function resetRouter() {
+  const newRouter = createRouter()
+  router.matcher = newRouter.matcher // reset router
+}
+
+export default router

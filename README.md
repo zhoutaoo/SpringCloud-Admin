@@ -1,9 +1,9 @@
 <p align="center">
   <a href="https://github.com/vuejs/vue">
-    <img src="https://img.shields.io/badge/vue-2.5.10-brightgreen.svg" alt="vue">
+    <img src="https://img.shields.io/badge/vue-2.6.10-brightgreen.svg" alt="vue">
   </a>
   <a href="https://github.com/ElemeFE/element">
-    <img src="https://img.shields.io/badge/element--ui-2.3.2-brightgreen.svg" alt="element-ui">
+    <img src="https://img.shields.io/badge/element--ui-2.7.0-brightgreen.svg" alt="element-ui">
   </a>
 </p>
 
@@ -12,7 +12,7 @@
 springcloud-admin是以[vue-element-admin](http://panjiachen.github.io/vue-element-admin) 为基础开发的微服务开发平台的管理系统。配套的后台
 代码库[springcloud](https://github.com/zhoutaoo/SpringCloud),
 是一个微服务开发集成平台，该项目基于 [vue](https://github.com/vuejs/vue) 和 [element](https://github.com/ElemeFE/element)。
-它使用了最新的前端技术栈，内置了i18国际化解决方案，动态路由，权限验证，提炼了典型的业务模型，提供了丰富的功能组件，它可以帮助你快速搭建企业级中后台产品原型。
+它使用了最新的前端技术栈，动态路由，权限验证，提炼了典型的业务模型，提供了丰富的功能组件，它可以帮助你快速搭建企业级中后台产品原型。
 相信不管你的需求是什么，本项目都能帮助到你。
 
 ## 前序准备

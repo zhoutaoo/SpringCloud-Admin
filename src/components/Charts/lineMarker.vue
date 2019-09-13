@@ -1,5 +1,5 @@
 <template>
-  <div :class="className" :id="id" :style="{height:height,width:width}"></div>
+  <div :id="id" :class="className" :style="{height:height,width:width}" />
 </template>
 
 <script>
@@ -80,8 +80,8 @@ export default {
         },
         grid: {
           top: 100,
-          left: '3%',
-          right: '4%',
+          left: '2%',
+          right: '2%',
           bottom: '2%',
           containLabel: true
         },
