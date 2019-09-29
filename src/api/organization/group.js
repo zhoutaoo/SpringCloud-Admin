@@ -2,21 +2,21 @@ import request from '@/utils/request'
 
 export function fetchGroupByParentId(id) {
   return request({
-    url: '/group/parent/' + id,
+    url: '/organization/group/parent/' + id,
     method: 'get'
   })
 }
 
 export function getGroup(id) {
   return request({
-    url: '/group' + id,
+    url: '/organization/group/' + id,
     method: 'get'
   })
 }
 
 export function createGroup(data) {
   return request({
-    url: '/group',
+    url: '/organization/group',
     method: 'post',
     data
   })
@@ -24,7 +24,7 @@ export function createGroup(data) {
 
 export function updateGroup(data) {
   return request({
-    url: '/group/' + data.id,
+    url: '/organization/group/' + data.id,
     method: 'put',
     data
   })
@@ -32,7 +32,7 @@ export function updateGroup(data) {
 
 export function deleteGroup(id) {
   return request({
-    url: '/group/' + id,
+    url: '/organization/group/' + id,
     method: 'delete'
   })
 }

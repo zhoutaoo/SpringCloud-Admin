@@ -8,7 +8,7 @@ const organizationRouter = {
   redirect: '/organization/user',
   name: 'Organization',
   meta: {
-    title: '组织管理',
+    title: '系统管理',
     icon: 'component'
   },
   children: [
@@ -18,7 +18,7 @@ const organizationRouter = {
       name: 'User',
       meta: {
         title: '用户管理',
-        icon: 'user'
+        icon: 'peoples'
       }
     },
     {
