@@ -356,21 +356,21 @@ export default {
 
     handleFilter() {
       this.listQuery.current = 1
-      this.queryRole()
+      this.queryGateway()
     },
     /**
        * 修改每页显示条数
        */
     handleSizeChange(val) {
       this.listQuery.size = val
-      this.queryRole()
+      this.queryGateway()
     },
     /**
        * 跳转到指定页
        */
     handleCurrentChange(val) {
       this.listQuery.current = val
-      this.queryRole()
+      this.queryGateway()
     },
 
     /**
