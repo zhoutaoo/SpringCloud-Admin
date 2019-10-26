@@ -36,13 +36,13 @@
 
     <el-table v-loading.body="listLoading" :data="list" border fit highlight-current-row style="width: 100%">
       <el-table-column type="index" width="50" align="center" label="序列" />
-      <el-table-column width="150px" align="center" label="路由id">
+      <el-table-column width="180px" align="left" label="路由id">
         <template slot-scope="scope">
           <span>{{ scope.row.routeId }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column width="120px" align="center" label="uri路径">
+      <el-table-column width="250px" align="left" label="uri路径">
         <template slot-scope="scope">
           <span>{{ scope.row.uri }}</span>
         </template>
@@ -80,7 +80,7 @@
 
       <el-table-column width="50" align="center" label="排序">
         <template slot-scope="scope">
-          <span>{{ scope.row.order }}</span>
+          <span>{{ scope.row.orders }}</span>
         </template>
       </el-table-column>
 
