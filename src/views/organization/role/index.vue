@@ -124,16 +124,18 @@
 
     <!--授权页面-->
     <el-dialog title="授权" :visible.sync="authFormVisible">
-      <el-form :rules="rules" ref="dataForm" :model="temp"
+      <el-form ref="dataForm" :model="temp"
                label-position="right"
                label-width="120px"
-               style='width: 80%; margin-left:30px;'>
+               style='width: 90%; margin-left:40px;'>
         <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
         <div style="margin: 15px 0;"></div>
         <el-checkbox-group v-model="temp.resourceIds" @change="handleCheckedChange">
-          <el-checkbox v-for="resource in resources" :label="resource.id" :key="resource.id">
-            {{resource.name}}
-          </el-checkbox>
+          <span v-for="(resource) in resources">
+            <el-checkbox :label="resource.id" :key="resource.id" style="height: 15px;margin: 10px">
+              {{resource.name}}
+            </el-checkbox>
+          </span>
         </el-checkbox-group>
       </el-form>
       <!--对话框动作按钮-->
