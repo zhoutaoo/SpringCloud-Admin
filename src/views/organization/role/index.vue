@@ -23,7 +23,7 @@
     </div>
 
     <el-table :data="list" v-loading.body="listLoading" border fit highlight-current-row style="width: 100%">
-      <el-table-column type="index" width="50" align="center" label="ID"/>
+      <el-table-column type="index" width="50" align="center" label="ID"></el-table-column>
       <el-table-column width="180px" align="center" label="角色号">
         <template slot-scope="scope">
           <span>{{scope.row.id}}</span>
