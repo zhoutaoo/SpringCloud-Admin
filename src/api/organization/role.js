@@ -8,7 +8,14 @@ export function queryRole(data) {
   })
 }
 
-export function getRoles() {
+export function getRole(id) {
+  return request({
+    url: '/organization/role/' + id,
+    method: 'get'
+  })
+}
+
+export function getAllRoles() {
   return request({
     url: '/organization/role/all',
     method: 'get'

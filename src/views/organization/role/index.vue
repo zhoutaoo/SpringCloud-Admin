@@ -72,10 +72,13 @@
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="操作" width="150">
+      <el-table-column align="center" label="操作" width="220">
         <template slot-scope="scope">
           <el-button type="primary" size="mini" @click="handleUpdate(scope.row)">
             修改
+          </el-button>
+          <el-button type="primary" size="mini" @click="handleAuth(scope.row.id)">
+            授权
           </el-button>
           <el-button type="danger" size="mini" @click="deleteRole(scope.row.id)">
             删除
@@ -115,14 +118,36 @@
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取消</el-button>
         <el-button v-if="dialogStatus=='create'" type="primary" @click="createData">创建</el-button>
-        <el-button v-else type="primary" @click="updateData">修改</el-button>
+        <el-button v-else type="primary" @click="updateData">保存</el-button>
+      </div>
+    </el-dialog>
+
+    <!--授权页面-->
+    <el-dialog title="授权" :visible.sync="authFormVisible">
+      <el-form :rules="rules" ref="dataForm" :model="temp"
+               label-position="right"
+               label-width="120px"
+               style='width: 80%; margin-left:30px;'>
+        <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
+        <div style="margin: 15px 0;"></div>
+        <el-checkbox-group v-model="temp.resourceIds" @change="handleCheckedChange">
+          <el-checkbox v-for="resource in resources" :label="resource.id" :key="resource.id">
+            {{resource.name}}
+          </el-checkbox>
+        </el-checkbox-group>
+      </el-form>
+      <!--对话框动作按钮-->
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="authFormVisible = false">取消</el-button>
+        <el-button type="primary" @click="updateAuth">保存</el-button>
       </div>
     </el-dialog>
   </div>
 </template>
 
 <script>
-  import { queryRole, createRole, updateRole, deleteRole } from '@/api/organization/role'
+  import { queryRole, createRole, updateRole, deleteRole, getRole } from '@/api/organization/role'
+  import { queryAllResource } from '@/api/organization/resource'
   import waves from '@/directive/waves' // 水波纹指令
 
   export default {
@@ -132,7 +157,7 @@
     },
     data() {
       return {
-        list: null,
+        list: [],
         total: 0,
         listLoading: true,
         listQuery: {
@@ -142,14 +167,19 @@
         },
         dialogStatus: 'create',
         dialogFormVisible: false,
+        authFormVisible: false,
         rules: {
           code: [{ required: true, message: '角色代码必填', trigger: 'blur' }],
           name: [{ required: true, message: '角色名必填', trigger: 'blur' }]
         },
+        checkAll: false,
+        resources: [],
+        isIndeterminate: true,
         temp: {
           code: '',
           name: '',
-          description: ''
+          description: '',
+          resourceIds: []
         },
         downloadLoading: false
       }
@@ -227,11 +257,68 @@
           }
         })
       },
-
+      /**
+       * 点击授权按钮
+       */
+      handleAuth(id) {
+        this.temp.id = id;
+        this.temp.resourceIds = []
+        // 查询所有资源
+        queryAllResource().then(response => {
+          this.resources = response.data
+          this.authFormVisible = true
+        })
+        // 查询角色详细信息，拿到已授权的角色id
+        getRole(id).then(response => {
+          this.temp.resourceIds = response.data.resourceIds
+          this.handleCheckedChange(this.temp.resourceIds)
+        })
+      },
+      /**
+       * 全选权限选项
+       */
+      handleCheckAllChange(val){
+        let ids = [];
+        for (let i = 0; i < this.resources.length; i++) {
+          ids.push(this.resources[i].id);
+        }
+        this.temp.resourceIds = val ? ids : [];
+        this.isIndeterminate = false;
+      },
+      /**
+       * 选中选项
+       */
+      handleCheckedChange(value){
+        let checkedCount = value.length;
+        this.checkAll = checkedCount === this.resources.length;
+        this.isIndeterminate = checkedCount > 0 && checkedCount < this.resources.length;
+      },
+      /**
+       * 更新权限
+       */
+      updateAuth(){
+        let temp = {
+          id: this.temp.id,
+          resourceIds: this.temp.resourceIds
+        };
+        console.log(temp)
+        updateRole(temp).then(() => {
+          this.authFormVisible = false;
+          this.$notify({
+            title: '权限编辑成功',
+            message: '权限编辑成功',
+            type: 'success',
+            duration: 2000
+          })
+        })
+      },
+      /**
+       * 点击更新按钮
+       */
       handleUpdate(row) {
-        this.temp = Object.assign({}, row) // copy obj
-        this.dialogStatus = 'edit'
-        this.dialogFormVisible = true
+        this.temp = Object.assign({}, row);// copy obj
+        this.dialogStatus = 'edit';
+        this.dialogFormVisible = true;
         this.$nextTick(() => {
           this.$refs['dataForm'].clearValidate()
         })
@@ -243,7 +330,7 @@
         this.$refs['dataForm'].validate((valid) => {
           if (valid) {
             updateRole(this.temp).then(() => {
-              this.dialogFormVisible = false
+              this.dialogFormVisible = false;
               this.$notify({
                 title: '编辑成功',
                 message: '编辑成功',

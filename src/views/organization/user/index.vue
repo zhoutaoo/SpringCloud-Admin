@@ -172,7 +172,7 @@
 
 <script>
   import { queryUser, getUser, createUser, updateUser, deleteUser } from '@/api/organization/user'
-  import { getRoles } from '@/api/organization/role'
+  import { getAllRoles } from '@/api/organization/role'
 
   import waves from '@/directive/waves'
 
@@ -248,7 +248,7 @@
        */
       getRoles(isShow) {
         if (isShow) {
-          getRoles().then(response => {
+          getAllRoles().then(response => {
             this.roleList = response.data
           })
         }
