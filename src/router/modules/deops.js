@@ -15,20 +15,30 @@ const devopsRouter = {
     {
       path: '/devops/nacos/register',
       name: 'Register',
-      component: () => import('@/views/devops/nacos'),
-      meta: {
-        title: '注册中心',
-        icon: 'link'
-      }
+      component: Layout,
+      children: [
+        {
+          path: 'http://localhost:8848/nacos',
+          meta: {
+            title: '注册中心',
+            icon: 'link'
+          }
+        }
+      ]
     },
     {
       path: '/devops/nacos/config',
       name: 'Config',
-      component: () => import('@/views/devops/nacos'),
-      meta: {
-        title: '配置中心',
-        icon: 'link'
-      }
+      component: Layout,
+      children: [
+        {
+          path: 'http://localhost:8848/nacos',
+          meta: {
+            title: '配置中心',
+            icon: 'link'
+          }
+        }
+      ]
     },
     {
       path: '/devops/sentinel',
