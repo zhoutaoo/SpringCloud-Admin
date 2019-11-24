@@ -27,8 +27,9 @@ export function getInfo(token) {
 }
 
 export function logout() {
-  return request({
-    url: '/user/logout',
-    method: 'post'
+  return Promise.resolve({
+    code: "000000",
+    mesg: "成功",
+    time: new Date(),
   })
 }
